@@ -68,6 +68,16 @@ class S {
   String get settings {
     return Intl.message('Settings', name: 'settings', desc: '', args: []);
   }
+
+  /// `Add New Task`
+  String get add_new_task {
+    return Intl.message(
+      'Add New Task',
+      name: 'add_new_task',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
