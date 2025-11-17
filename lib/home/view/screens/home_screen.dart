@@ -26,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(localization.appTitle),
-        actions: [IconButton(onPressed: () {}, icon: Icon(CupertinoIcons.add))],
+        shape: Border(bottom: BorderSide(color: AppTheme.lightModeDividerGrey)),
       ),
 
       body: IndexedStack(index: _currentTabIndex, children: appTabs),
@@ -41,6 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
           color: AppTheme.lightModePrimary,
           padding: EdgeInsets.zero,
           child: BottomNavigationBar(
+            backgroundColor: AppTheme.lightModePrimary,
             selectedItemColor: AppTheme.lightModeBlack,
             unselectedItemColor: AppTheme.lightModeLightGrey,
             selectedLabelStyle: TextStyle(
