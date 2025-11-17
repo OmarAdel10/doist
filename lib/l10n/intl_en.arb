@@ -1,3 +1,5 @@
 {
-  "appTitle": "Doist"
+  "appTitle": "Doist",
+  "home" : "Home",
+  "settings": "Settings"
 }
