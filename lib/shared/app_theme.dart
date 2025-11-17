@@ -1,3 +1,4 @@
+import 'package:doist/shared/font_manager.dart';
 import 'package:flutter/material.dart';
 
 class AppTheme {
@@ -23,6 +24,11 @@ class AppTheme {
     scaffoldBackgroundColor: lightModePrimary,
     appBarTheme: AppBarTheme(
       centerTitle: true,
+      titleTextStyle: TextStyle(
+        color: lightModeBlack,
+        fontSize: FontManager.f18,
+        fontWeight: FontManager.bold,
+      ),
       backgroundColor: lightModePrimary,
       elevation: 0,
       actionsIconTheme: IconThemeData(color: lightModeBlack),
@@ -33,6 +39,11 @@ class AppTheme {
     scaffoldBackgroundColor: darkModePrimary,
     appBarTheme: AppBarTheme(
       centerTitle: true,
+      titleTextStyle: TextStyle(
+        color: darkModeWhite,
+        fontSize: FontManager.f18,
+        fontWeight: FontManager.bold,
+      ),
       backgroundColor: darkModePrimary,
       elevation: 0,
       actionsIconTheme: IconThemeData(color: darkModeWhite),
