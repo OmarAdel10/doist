@@ -7,9 +7,10 @@ class AppTheme {
   static const Color lightModeBlack = Color(0xFF121217);
   static const Color lightModeLightGrey = Color(0xFF9AA0A6);
   static const Color lightModeTextGrey = Color(0xFF61708A);
-  static const Color lightModeContainerBackGroundGrey = Color(0xFFF0F2F5);
+  static const Color lightModeBackGroundGrey = Color(0xFFF0F2F5);
   static const Color lightModeLoadingTextGrey = Color(0xFF3C3C43);
   static const Color lightModeDividerGrey = Color(0xFFE6E9EE);
+  static const Color lightModeFormAndCheckBoxGrey = Color(0xFFDBDEE5);
 
   static const Color darkModePrimary = Color(0xFF0B0D0F);
   static const Color darkModeSecondry = Color(0xFF125CED);
@@ -32,7 +33,35 @@ class AppTheme {
       backgroundColor: lightModePrimary,
       elevation: 0,
       actionsIconTheme: IconThemeData(color: lightModeBlack),
-    )
+    ),
+
+    inputDecorationTheme: InputDecorationTheme(
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8),
+        borderSide: BorderSide(color: lightModeFormAndCheckBoxGrey),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8),
+        borderSide: BorderSide(color: lightModeFormAndCheckBoxGrey),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8),
+        borderSide: BorderSide(color: lightModeFormAndCheckBoxGrey),
+      ),
+    ),
+
+    textTheme: TextTheme(
+      titleMedium: TextStyle(
+        fontSize: FontManager.f16,
+        fontWeight: FontManager.medium,
+        color: lightModeBlack,
+      ),
+      titleSmall: TextStyle(
+        fontSize: FontManager.f14,
+        fontWeight: FontManager.regular,
+        color: lightModeTextGrey,
+      ),
+    ),
   );
 
   static ThemeData darkTheme = ThemeData(
@@ -47,6 +76,6 @@ class AppTheme {
       backgroundColor: darkModePrimary,
       elevation: 0,
       actionsIconTheme: IconThemeData(color: darkModeWhite),
-    )
+    ),
   );
 }

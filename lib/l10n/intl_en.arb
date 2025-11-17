@@ -1,5 +1,6 @@
 {
   "appTitle": "Doist",
   "home" : "Home",
-  "settings": "Settings"
+  "settings": "Settings",
+  "add_new_task" : "Add New Task"
 }
