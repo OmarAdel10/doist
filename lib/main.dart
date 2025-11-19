@@ -1,10 +1,26 @@
+import 'dart:developer';
+
 import 'package:doist/home/view/screens/home_screen.dart';
+import 'package:doist/home_tab/view_model/home_tab_view_model.dart';
 import 'package:doist/shared/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:path_provider/path_provider.dart';
 import 'generated/l10n.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final storage = await HydratedStorage.build(
+    storageDirectory: HydratedStorageDirectory(
+      (await getTemporaryDirectory()).path,
+    ),
+  );
+  log('HydratedStorage built: ${storage.runtimeType}');
+  HydratedBloc.storage = storage;
+  log('HydratedBloc.storage has been set.');
+
   runApp(const Doist());
 }
 
@@ -15,7 +31,12 @@ class Doist extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      routes: {HomeScreen.routeName: (_) => HomeScreen()},
+      routes: {
+        HomeScreen.routeName: (_) => BlocProvider(
+          create: (context) => HomeTabBloc(),
+          child: HomeScreen(),
+        ),
+      },
       initialRoute: HomeScreen.routeName,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
