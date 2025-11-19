@@ -5,11 +5,11 @@ import 'package:doist/shared/app_theme.dart';
 import 'package:doist/shared/font_manager.dart';
 import 'package:flutter/material.dart';
 
-class Task extends StatelessWidget {
+class TaskTile extends StatelessWidget {
   final TaskModel model;
   final void Function(bool?)? onChanged;
 
-  const Task({super.key, required this.model, required this.onChanged});
+  const TaskTile({super.key, required this.model, required this.onChanged});
 
   @override
   Widget build(BuildContext context) {
