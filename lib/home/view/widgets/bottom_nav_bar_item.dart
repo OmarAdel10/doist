@@ -1,5 +1,7 @@
+import 'package:doist/settings_tab/view_model/settings_view_model.dart';
 import 'package:doist/shared/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BottomNavBarItem extends StatelessWidget {
   final IconData icon;
@@ -15,7 +17,14 @@ class BottomNavBarItem extends StatelessWidget {
     return Icon(
       icon,
       size: isSelected ? 28 : 24,
-      color: isSelected ? AppTheme.lightModeBlack : AppTheme.lightModeLightGrey,
+      color:
+          context.read<SettingsBloc>().state.model.themeMode == ThemeMode.light
+          ? isSelected
+                ? AppTheme.lightModeBlack
+                : AppTheme.lightModeLightGrey
+          : isSelected
+          ? AppTheme.darkModeWhite
+          : AppTheme.darkModeFormAndCheckBoxGrey,
     );
   }
 }

@@ -78,6 +78,76 @@ class S {
       args: [],
     );
   }
+
+  /// `App Preferences`
+  String get app_prefrences {
+    return Intl.message(
+      'App Preferences',
+      name: 'app_prefrences',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Theme`
+  String get theme {
+    return Intl.message('Theme', name: 'theme', desc: '', args: []);
+  }
+
+  /// `Light`
+  String get light {
+    return Intl.message('Light', name: 'light', desc: '', args: []);
+  }
+
+  /// `Dark`
+  String get dark {
+    return Intl.message('Dark', name: 'dark', desc: '', args: []);
+  }
+
+  /// `System`
+  String get system {
+    return Intl.message('System', name: 'system', desc: '', args: []);
+  }
+
+  /// `Language`
+  String get language {
+    return Intl.message('Language', name: 'language', desc: '', args: []);
+  }
+
+  /// `English`
+  String get english {
+    return Intl.message('English', name: 'english', desc: '', args: []);
+  }
+
+  /// `العربية`
+  String get arabic {
+    return Intl.message('العربية', name: 'arabic', desc: '', args: []);
+  }
+
+  /// `Security`
+  String get security {
+    return Intl.message('Security', name: 'security', desc: '', args: []);
+  }
+
+  /// `Enable Biometrics Login`
+  String get enable_biometrics_login {
+    return Intl.message(
+      'Enable Biometrics Login',
+      name: 'enable_biometrics_login',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `About`
+  String get about {
+    return Intl.message('About', name: 'about', desc: '', args: []);
+  }
+
+  /// `App Version`
+  String get app_version {
+    return Intl.message('App Version', name: 'app_version', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

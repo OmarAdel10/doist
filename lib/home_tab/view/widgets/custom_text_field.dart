@@ -1,6 +1,7 @@
 import 'package:doist/generated/l10n.dart';
 import 'package:doist/home_tab/view_model/home_tab_events.dart';
 import 'package:doist/home_tab/view_model/home_tab_view_model.dart';
+import 'package:doist/settings_tab/view_model/settings_view_model.dart';
 import 'package:doist/shared/app_theme.dart';
 import 'package:doist/shared/font_manager.dart';
 import 'package:flutter/cupertino.dart';
@@ -33,6 +34,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
   @override
   Widget build(BuildContext context) {
+    final bool hasText = _controller.text.isNotEmpty;
+
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Row(
@@ -46,47 +49,70 @@ class _CustomTextFieldState extends State<CustomTextField> {
               onTapOutside: (event) =>
                   FocusManager.instance.primaryFocus?.unfocus(),
               cursorColor: AppTheme.lightModeBlack,
+              style: TextStyle(
+                locale: Locale(
+                  context.read<SettingsBloc>().state.model.language,
+                ),
+                color:
+                    context.read<SettingsBloc>().state.model.themeMode ==
+                        ThemeMode.light
+                    ? AppTheme.lightModeBlack
+                    : AppTheme.darkModeWhite,
+              ),
               decoration: InputDecoration(
-                hint: Text(
-                  S.of(context).add_new_task,
-                  style: TextStyle(
-                    fontSize: FontManager.f16,
-                    fontWeight: FontManager.regular,
-                    color: AppTheme.lightModeTextGrey,
+                hintText: S.of(context).add_new_task,
+                hintStyle: TextStyle(
+                  fontSize: FontManager.f16,
+                  fontWeight: FontManager.regular,
+                  color: AppTheme.lightModeTextGrey,
+                ),
+                suffix: AnimatedOpacity(
+                  opacity: hasText ? 1.0 : 0.0,
+                  duration: Duration(milliseconds: 200),
+                  child: AnimatedScale(
+                    scale: hasText ? 1.0 : 0.0,
+                    duration: Duration(milliseconds: 200),
+                    curve: Curves.easeInOut,
+                    child: GestureDetector(
+                      onTap: hasText
+                          ? () {
+                              context.read<HomeTabBloc>().add(
+                                HomeTabAddTask(taskTitle: _controller.text),
+                              );
+                              _controller.clear();
+                            }
+                          : null,
+                      child: Container(
+                        height: MediaQuery.sizeOf(context).width * 0.08,
+                        width: MediaQuery.sizeOf(context).width * 0.10,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(
+                            color:
+                                context
+                                        .read<SettingsBloc>()
+                                        .state
+                                        .model
+                                        .themeMode ==
+                                    ThemeMode.light
+                                ? AppTheme.lightModeDividerGrey
+                                : AppTheme.darkModeLightGrey,
+                          ),
+                          color: AppTheme.lightModeSecondry,
+                        ),
+                        child: Icon(
+                          CupertinoIcons.add,
+                          size: 18,
+                          color: AppTheme.lightModePrimary,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ),
             ),
           ),
           const SizedBox(width: 8),
-          AnimatedContainer(
-            height: 56,
-            width: _controller.text.isEmpty
-                ? 0
-                : MediaQuery.sizeOf(context).width * 0.2,
-            curve: Curves.easeInOut,
-            duration: Duration(milliseconds: 200),
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadiusGeometry.circular(8),
-                  side: BorderSide(color: AppTheme.lightModeDividerGrey),
-                ),
-                backgroundColor: AppTheme.lightModeSecondry,
-              ),
-              onPressed: () async {
-                context.read<HomeTabBloc>().add(
-                  HomeTabAddTask(taskTitle: _controller.text),
-                );
-                _controller.clear();
-              },
-              child: Icon(
-                CupertinoIcons.add,
-                size: 24,
-                color: AppTheme.lightModePrimary,
-              ),
-            ),
-          ),
         ],
       ),
     );

@@ -1,1 +1,18 @@
-{}
+{
+  "appTitle": "Doist",
+  "home": "الرئيسية",
+  "settings": "الإعدادات",
+  "add_new_task": "إضافة مهمة جديدة",
+  "app_prefrences": "إعدادات التطبيق",
+  "theme": "السمة",
+  "light": "فاتح",
+  "dark": "داكن",
+  "system": "النظام",
+  "language": "اللغة",
+  "english": "الإنجليزية",
+  "arabic": "العربية",
+  "security": "الأمان",
+  "enable_biometrics_login": "تفعيل تسجيل الدخول بالبصمة",
+  "about": "حول",
+  "app_version": "إصدار التطبيق"
+}
