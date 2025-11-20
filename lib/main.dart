@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:doist/home/view/screens/home_screen.dart';
 import 'package:doist/home_tab/view_model/home_tab_view_model.dart';
+import 'package:doist/settings_tab/view_model/settings_states.dart';
+import 'package:doist/settings_tab/view_model/settings_view_model.dart';
 import 'package:doist/shared/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,25 +31,33 @@ class Doist extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      routes: {
-        HomeScreen.routeName: (_) => BlocProvider(
-          create: (context) => HomeTabBloc(),
-          child: HomeScreen(),
-        ),
-      },
-      initialRoute: HomeScreen.routeName,
-      theme: AppTheme.lightTheme,
-      darkTheme: AppTheme.darkTheme,
-      themeMode: ThemeMode.light,
-      localizationsDelegates: [
-        S.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: S.delegate.supportedLocales,
+    return BlocProvider(
+      create: (context) => SettingsBloc(),
+      child: BlocBuilder<SettingsBloc, SettingsState>(
+        builder: (context, state) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            routes: {
+              HomeScreen.routeName: (_) => BlocProvider(
+                create: (context) => HomeTabBloc(),
+                child: HomeScreen(),
+              ),
+            },
+            initialRoute: HomeScreen.routeName,
+            theme: AppTheme.lightTheme,
+            darkTheme: AppTheme.darkTheme,
+            themeMode: state.model.themeMode,
+            locale: Locale(state.model.language),
+            localizationsDelegates: [
+              S.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: S.delegate.supportedLocales,
+          );
+        },
+      ),
     );
   }
 }

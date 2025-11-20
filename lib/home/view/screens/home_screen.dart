@@ -2,10 +2,12 @@ import 'package:doist/generated/l10n.dart';
 import 'package:doist/home/view/widgets/bottom_nav_bar_item.dart';
 import 'package:doist/home_tab/view/screens/home_tab.dart';
 import 'package:doist/settings_tab/view/screens/settings_tab.dart';
+import 'package:doist/settings_tab/view_model/settings_view_model.dart';
 import 'package:doist/shared/app_theme.dart';
 import 'package:doist/shared/font_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String routeName = '/home';
@@ -23,9 +25,12 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final localization = S.of(context);
+    final themeMode = context.read<SettingsBloc>().state.model.themeMode;
     return Scaffold(
       appBar: AppBar(
-        title: Text(localization.appTitle),
+        title: Text(
+          _currentTabIndex == 1 ? localization.settings : localization.appTitle,
+        ),
         shape: Border(bottom: BorderSide(color: AppTheme.lightModeDividerGrey)),
       ),
 
@@ -38,19 +43,23 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         child: BottomAppBar(
-          color: AppTheme.lightModePrimary,
+          color: themeMode == ThemeMode.light
+              ? AppTheme.lightModePrimary
+              : AppTheme.darkModePrimary,
           padding: EdgeInsets.zero,
           child: BottomNavigationBar(
-            backgroundColor: AppTheme.lightModePrimary,
-            selectedItemColor: AppTheme.lightModeBlack,
-            unselectedItemColor: AppTheme.lightModeLightGrey,
+            backgroundColor: themeMode == ThemeMode.light
+                ? AppTheme.lightModePrimary
+                : AppTheme.darkModePrimary,
+            selectedItemColor: themeMode == ThemeMode.light ? AppTheme.lightModeBlack : AppTheme.darkModeWhite,
+            unselectedItemColor: themeMode == ThemeMode.light ?AppTheme.lightModeLightGrey : AppTheme.darkModeFormAndCheckBoxGrey,
             selectedLabelStyle: TextStyle(
-              color: AppTheme.lightModeBlack,
+              color: themeMode == ThemeMode.light ? AppTheme.lightModeBlack : AppTheme.darkModeFormAndCheckBoxGrey,
               fontSize: FontManager.f14,
               fontWeight: FontManager.semiBold,
             ),
             unselectedLabelStyle: TextStyle(
-              color: AppTheme.lightModeBlack,
+              color: themeMode == ThemeMode.light ? AppTheme.lightModeBlack : AppTheme.darkModeFormAndCheckBoxGrey,
               fontSize: FontManager.f12,
               fontWeight: FontManager.medium,
             ),

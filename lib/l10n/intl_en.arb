@@ -2,5 +2,17 @@
   "appTitle": "Doist",
   "home" : "Home",
   "settings": "Settings",
-  "add_new_task" : "Add New Task"
+  "add_new_task" : "Add New Task",
+  "app_prefrences": "App Preferences",
+  "theme" : "Theme",
+  "light": "Light",
+  "dark": "Dark",
+  "system": "System",
+  "language": "Language",
+  "english": "English",
+  "arabic": "العربية",
+  "security": "Security",
+  "enable_biometrics_login": "Enable Biometrics Login",
+  "about": "About",
+  "app_version": "App Version"
 }
