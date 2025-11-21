@@ -22,3 +22,8 @@ class SettingsUpdateBioMetrics extends SettingsEvent {
   @override
   List<Object?> get props => [];
 }
+
+class SettingsUpdateOnBoardingCompleteness extends SettingsEvent {
+  @override
+  List<Object?> get props => [];
+}
