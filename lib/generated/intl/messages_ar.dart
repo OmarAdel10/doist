@@ -21,5 +21,24 @@ class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'ar';
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{};
+  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+    "about": MessageLookupByLibrary.simpleMessage("حول"),
+    "add_new_task": MessageLookupByLibrary.simpleMessage("إضافة مهمة جديدة"),
+    "appTitle": MessageLookupByLibrary.simpleMessage("Doist"),
+    "app_prefrences": MessageLookupByLibrary.simpleMessage("إعدادات التطبيق"),
+    "app_version": MessageLookupByLibrary.simpleMessage("إصدار التطبيق"),
+    "arabic": MessageLookupByLibrary.simpleMessage("العربية"),
+    "dark": MessageLookupByLibrary.simpleMessage("داكن"),
+    "enable_biometrics_login": MessageLookupByLibrary.simpleMessage(
+      "تفعيل تسجيل الدخول بالبصمة",
+    ),
+    "english": MessageLookupByLibrary.simpleMessage("الإنجليزية"),
+    "home": MessageLookupByLibrary.simpleMessage("الرئيسية"),
+    "language": MessageLookupByLibrary.simpleMessage("اللغة"),
+    "light": MessageLookupByLibrary.simpleMessage("فاتح"),
+    "security": MessageLookupByLibrary.simpleMessage("الأمان"),
+    "settings": MessageLookupByLibrary.simpleMessage("الإعدادات"),
+    "system": MessageLookupByLibrary.simpleMessage("النظام"),
+    "theme": MessageLookupByLibrary.simpleMessage("السمة"),
+  };
 }
