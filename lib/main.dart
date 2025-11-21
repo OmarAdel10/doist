@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:doist/home/view/screens/home_screen.dart';
 import 'package:doist/home_tab/view_model/home_tab_view_model.dart';
+import 'package:doist/onBoarding/view/screens/on_boarding_screen.dart';
+import 'package:doist/onBoarding/view_model/on_boarding_view_model.dart';
 import 'package:doist/settings_tab/view_model/settings_states.dart';
 import 'package:doist/settings_tab/view_model/settings_view_model.dart';
 import 'package:doist/shared/app_theme.dart';
@@ -42,8 +44,16 @@ class Doist extends StatelessWidget {
                 create: (context) => HomeTabBloc(),
                 child: HomeScreen(),
               ),
+              OnboardingScreen.routeName: (_) => BlocProvider(
+                create: (context) => OnBoardingBloc(),
+                child: OnboardingScreen(),
+              ),
             },
-            initialRoute: HomeScreen.routeName,
+            // initialRoute: OnboardingScreen.routeName,
+            initialRoute:
+                state.model.isOnBoardingDone
+                ? HomeScreen.routeName
+                : OnboardingScreen.routeName,
             theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,
             themeMode: state.model.themeMode,
