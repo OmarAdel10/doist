@@ -1,7 +1,10 @@
 import 'package:doist/home/view/screens/home_screen.dart';
+import 'package:doist/onBoarding/view/screens/on_boarding_screen.dart';
+import 'package:doist/settings_tab/view_model/settings_view_model.dart';
 import 'package:doist/shared/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SplashScreen extends StatefulWidget {
   static const String routeName = '/splash-screen';
@@ -24,7 +27,11 @@ class _SplashScreenState extends State<SplashScreen> {
   void _handleNaviagtion() async {
     await Future.delayed(Duration(milliseconds: 1800), () {
       if (mounted) {
-        Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+        Navigator.of(context).pushReplacementNamed(
+          context.read<SettingsBloc>().state.model.isOnBoardingDone
+              ? HomeScreen.routeName
+              : OnboardingScreen.routeName,
+        );
       }
     });
   }

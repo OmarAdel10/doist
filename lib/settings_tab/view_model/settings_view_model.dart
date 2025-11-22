@@ -13,7 +13,6 @@ class SettingsBloc extends HydratedBloc<SettingsEvent, SettingsState> {
           model: SettingsModel(
             themeMode: ThemeMode.light,
             language: 'en',
-            enabledBioMetricLogin: false,
             isOnBoardingDone: false,
           ),
         ),
@@ -36,16 +35,6 @@ class SettingsBloc extends HydratedBloc<SettingsEvent, SettingsState> {
       emit(
         SettingsUpdateState(
           model: state.model.copyWith(language: event.languageCode),
-        ),
-      );
-    });
-
-    on<SettingsUpdateBioMetrics>((event, emit) {
-      emit(
-        SettingsUpdateState(
-          model: state.model.copyWith(
-            enabledBioMetricLogin: !state.model.enabledBioMetricLogin,
-          ),
         ),
       );
     });

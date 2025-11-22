@@ -90,10 +90,6 @@ class Doist extends StatelessWidget {
               }
             },
             initialRoute: SplashScreen.routeName,
-            // initialRoute:
-            //     state.model.isOnBoardingDone
-            //     ? HomeScreen.routeName
-            //     : OnboardingScreen.routeName,
             theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,
             themeMode: state.model.themeMode,
