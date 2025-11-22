@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:lottie/lottie.dart';
 
 class TasksList extends StatelessWidget {
   const TasksList({super.key});
@@ -14,42 +15,52 @@ class TasksList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-          child: BlocBuilder<HomeTabBloc, HomeTabState>(
-            builder: (context, state) {
-              return ListView.separated(
-                itemBuilder: (context, index) => Slidable(
-                  endActionPane: ActionPane(
-                    motion: StretchMotion(),
-                    extentRatio: 0.3,
-                    children: [
-                      SlidableAction(
-                        onPressed: (context) => context.read<HomeTabBloc>().add(
-                          HomeTabDeleteTask(taskId: state.tasksList[index].id),
+      child: BlocBuilder<HomeTabBloc, HomeTabState>(
+        builder: (context, state) {
+          return state.tasksList.isEmpty
+              ? Lottie.asset(
+                  'assets/lottie/empty.json',
+                  width: MediaQuery.sizeOf(context).width * 0.5,
+                  height: MediaQuery.sizeOf(context).width * 0.5,
+                  fit: BoxFit.contain,
+                )
+              : ListView.separated(
+                  itemBuilder: (context, index) => Slidable(
+                    endActionPane: ActionPane(
+                      motion: StretchMotion(),
+                      extentRatio: 0.3,
+                      children: [
+                        SlidableAction(
+                          onPressed: (context) =>
+                              context.read<HomeTabBloc>().add(
+                                HomeTabDeleteTask(
+                                  taskId: state.tasksList[index].id,
+                                ),
+                              ),
+                          backgroundColor: Colors.redAccent,
+                          icon: CupertinoIcons.delete,
+                          foregroundColor: AppTheme.lightModePrimary,
                         ),
-                        backgroundColor: Colors.redAccent,
-                        icon: CupertinoIcons.delete,
-                        foregroundColor: AppTheme.lightModePrimary,
-                      ),
-                    ],
-                  ),
-                  child: TaskTile(
-                    model: state.tasksList[index],
-                    onChanged: (val) => context.read<HomeTabBloc>().add(
-                      HomeTabUpdateCheckedForTask(
-                        taskId: state.tasksList[index].id,
+                      ],
+                    ),
+                    child: TaskTile(
+                      model: state.tasksList[index],
+                      onChanged: (val) => context.read<HomeTabBloc>().add(
+                        HomeTabUpdateCheckedForTask(
+                          taskId: state.tasksList[index].id,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                separatorBuilder: (context, index) => const Divider(
-                  indent: 25,
-                  endIndent: 25,
-                  color: AppTheme.lightModeDividerGrey,
-                ),
-                itemCount: state.tasksList.length,
-              );
-            },
-          ),
-        );
+                  separatorBuilder: (context, index) => const Divider(
+                    indent: 25,
+                    endIndent: 25,
+                    color: AppTheme.lightModeDividerGrey,
+                  ),
+                  itemCount: state.tasksList.length,
+                );
+        },
+      ),
+    );
   }
 }
