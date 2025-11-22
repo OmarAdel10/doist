@@ -52,6 +52,16 @@ class AppTheme {
     ),
 
     textTheme: TextTheme(
+      headlineMedium: TextStyle(
+        fontSize: FontManager.f28,
+        fontWeight: FontManager.bold,
+        color: lightModeBlack
+      ),
+      headlineSmall: TextStyle(
+        fontSize: FontManager.f16,
+        fontWeight: FontManager.bold,
+        color: lightModePrimary,
+      ),
       titleLarge: TextStyle(
         fontSize: FontManager.f18,
         fontWeight: FontManager.semiBold,
@@ -75,6 +85,11 @@ class AppTheme {
       labelMedium: TextStyle(
         fontSize: FontManager.f14,
         fontWeight: FontManager.semiBold,
+        color: lightModeBlack,
+      ),
+      labelSmall: TextStyle(
+        fontSize: FontManager.f16,
+        fontWeight: FontManager.regular,
         color: lightModeBlack,
       ),
     ),
