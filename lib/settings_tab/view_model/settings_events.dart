@@ -18,11 +18,6 @@ class SettingsUpdateLanguage extends SettingsEvent {
   List<Object?> get props => [languageCode];
 }
 
-class SettingsUpdateBioMetrics extends SettingsEvent {
-  @override
-  List<Object?> get props => [];
-}
-
 class SettingsUpdateOnBoardingCompleteness extends SettingsEvent {
   @override
   List<Object?> get props => [];

@@ -6,13 +6,11 @@ import 'package:flutter/material.dart';
 class SettingsModel {
   final ThemeMode themeMode;
   final String language;
-  final bool enabledBioMetricLogin;
   final bool isOnBoardingDone;
 
   const SettingsModel({
     required this.themeMode,
     required this.language,
-    required this.enabledBioMetricLogin,
     required this.isOnBoardingDone,
   });
 
@@ -25,8 +23,6 @@ class SettingsModel {
     return SettingsModel(
       themeMode: themeMode ?? this.themeMode,
       language: language ?? this.language,
-      enabledBioMetricLogin:
-          enabledBioMetricLogin ?? this.enabledBioMetricLogin,
       isOnBoardingDone: isOnBoardingDone ?? this.isOnBoardingDone,
     );
   }
@@ -35,7 +31,6 @@ class SettingsModel {
     return <String, dynamic>{
       'themeMode': themeMode.name,
       'language': language,
-      'enabledBioMetricLogin': enabledBioMetricLogin,
       'isOnBoardingDone' : isOnBoardingDone,
     };
   }
@@ -47,7 +42,6 @@ class SettingsModel {
         orElse: () => ThemeMode.light,
       ),
       language: map['language'] as String,
-      enabledBioMetricLogin: map['enabledBioMetricLogin'] as bool,
       isOnBoardingDone: map['isOnBoardingDone'] as bool,
     );
   }
