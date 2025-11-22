@@ -83,8 +83,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
                             }
                           : null,
                       child: Container(
-                        height: MediaQuery.sizeOf(context).width * 0.08,
-                        width: MediaQuery.sizeOf(context).width * 0.10,
+                        height: MediaQuery.sizeOf(context).width * 0.11,
+                        width: MediaQuery.sizeOf(context).width * 0.15,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
                           border: Border.all(
