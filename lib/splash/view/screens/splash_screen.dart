@@ -2,7 +2,6 @@ import 'package:doist/home/view/screens/home_screen.dart';
 import 'package:doist/shared/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:page_transition/page_transition.dart';
 
 class SplashScreen extends StatefulWidget {
   static const String routeName = '/splash-screen';
