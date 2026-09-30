@@ -17,7 +17,7 @@ class OnBoardingInitial extends OnBoardingState {
 
 class OnBoardingUpdateState extends OnBoardingState {
   const OnBoardingUpdateState({required super.index, required super.modelList});
-  
+
   @override
   List<Object?> get props => [index, modelList];
 }

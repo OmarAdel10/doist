@@ -10,7 +10,7 @@ class TaskModel extends Equatable {
   final String taskTitle;
 
   TaskModel({String? id, this.isChecked = false, required this.taskTitle})
-      : id = id ?? const Uuid().v4();
+    : id = id ?? const Uuid().v4();
 
   TaskModel copyWith({String? id, bool? isChecked, String? taskTitle}) {
     return TaskModel(
@@ -24,7 +24,7 @@ class TaskModel extends Equatable {
     return <String, dynamic>{
       'id': id,
       'isChecked': isChecked,
-      'taskTitle': taskTitle
+      'taskTitle': taskTitle,
     };
   }
 
@@ -36,7 +36,7 @@ class TaskModel extends Equatable {
     );
   }
 
-  String toJson() => json.encode(toMap()); 
+  String toJson() => json.encode(toMap());
 
   factory TaskModel.fromJson(String source) =>
       TaskModel.fromMap(json.decode(source) as Map<String, dynamic>);

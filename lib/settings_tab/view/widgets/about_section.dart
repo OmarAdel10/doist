@@ -43,7 +43,7 @@ class AboutSection extends StatelessWidget {
                     context.read<SettingsBloc>().state.model.themeMode ==
                         ThemeMode.light
                     ? AppTheme.lightModeLoadingTextGrey
-                    : AppTheme.darkModeLoadingTextGrey
+                    : AppTheme.darkModeLoadingTextGrey,
               ),
             ),
           ],

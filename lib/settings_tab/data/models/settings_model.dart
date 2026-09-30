@@ -31,7 +31,7 @@ class SettingsModel {
     return <String, dynamic>{
       'themeMode': themeMode.name,
       'language': language,
-      'isOnBoardingDone' : isOnBoardingDone,
+      'isOnBoardingDone': isOnBoardingDone,
     };
   }
 

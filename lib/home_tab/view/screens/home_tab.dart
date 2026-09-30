@@ -9,11 +9,7 @@ class HomeTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [
-        CustomTextField(),
-        const SizedBox(height: 10),
-        TasksList(),
-      ],
+      children: [CustomTextField(), const SizedBox(height: 10), TasksList()],
     );
   }
 }
