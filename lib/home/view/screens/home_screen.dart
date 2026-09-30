@@ -51,15 +51,23 @@ class _HomeScreenState extends State<HomeScreen> {
             backgroundColor: themeMode == ThemeMode.light
                 ? AppTheme.lightModePrimary
                 : AppTheme.darkModePrimary,
-            selectedItemColor: themeMode == ThemeMode.light ? AppTheme.lightModeBlack : AppTheme.darkModeWhite,
-            unselectedItemColor: themeMode == ThemeMode.light ?AppTheme.lightModeLightGrey : AppTheme.darkModeFormAndCheckBoxGrey,
+            selectedItemColor: themeMode == ThemeMode.light
+                ? AppTheme.lightModeBlack
+                : AppTheme.darkModeWhite,
+            unselectedItemColor: themeMode == ThemeMode.light
+                ? AppTheme.lightModeLightGrey
+                : AppTheme.darkModeFormAndCheckBoxGrey,
             selectedLabelStyle: TextStyle(
-              color: themeMode == ThemeMode.light ? AppTheme.lightModeBlack : AppTheme.darkModeFormAndCheckBoxGrey,
+              color: themeMode == ThemeMode.light
+                  ? AppTheme.lightModeBlack
+                  : AppTheme.darkModeFormAndCheckBoxGrey,
               fontSize: FontManager.f14,
               fontWeight: FontManager.semiBold,
             ),
             unselectedLabelStyle: TextStyle(
-              color: themeMode == ThemeMode.light ? AppTheme.lightModeBlack : AppTheme.darkModeFormAndCheckBoxGrey,
+              color: themeMode == ThemeMode.light
+                  ? AppTheme.lightModeBlack
+                  : AppTheme.darkModeFormAndCheckBoxGrey,
               fontSize: FontManager.f12,
               fontWeight: FontManager.medium,
             ),

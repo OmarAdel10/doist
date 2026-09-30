@@ -19,9 +19,11 @@ class TaskTile extends StatelessWidget {
         style: TextStyle(
           fontSize: FontManager.f16,
           fontWeight: FontManager.medium,
-          color: context.read<SettingsBloc>().state.model.themeMode ==
+          color:
+              context.read<SettingsBloc>().state.model.themeMode ==
                   ThemeMode.light
-              ? AppTheme.lightModeBlack : AppTheme.darkModeWhite,
+              ? AppTheme.lightModeBlack
+              : AppTheme.darkModeWhite,
           decoration: model.isChecked
               ? TextDecoration.lineThrough
               : TextDecoration.none,

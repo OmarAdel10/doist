@@ -26,7 +26,11 @@ class OnBoardingScreenItem extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              Text(title, style: Theme.of(context).textTheme.headlineMedium, textAlign: TextAlign.center,),
+              Text(
+                title,
+                style: Theme.of(context).textTheme.headlineMedium,
+                textAlign: TextAlign.center,
+              ),
               const SizedBox(height: 16),
               Text(
                 subTitle,

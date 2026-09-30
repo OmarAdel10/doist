@@ -43,7 +43,7 @@ class LanguageSection extends StatelessWidget {
                     child: GestureDetector(
                       onTap: () {
                         context.read<SettingsBloc>().add(
-                          SettingsUpdateLanguage(languageCode: 'en')
+                          SettingsUpdateLanguage(languageCode: 'en'),
                         );
                       },
                       child: Container(
@@ -71,7 +71,7 @@ class LanguageSection extends StatelessWidget {
                     child: GestureDetector(
                       onTap: () {
                         context.read<SettingsBloc>().add(
-                          SettingsUpdateLanguage(languageCode: 'ar')
+                          SettingsUpdateLanguage(languageCode: 'ar'),
                         );
                       },
                       child: Container(

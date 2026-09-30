@@ -20,20 +20,23 @@ class SettingsTab extends StatelessWidget {
         children: [
           Text(
             localization.app_prefrences,
-            style: Theme.of(context).textTheme.titleLarge!.copyWith(color: context.read<SettingsBloc>().state.model.themeMode ==
-                  ThemeMode.light
-              ? AppTheme.lightModeBlack : AppTheme.darkModeWhite
-              ),
+            style: Theme.of(context).textTheme.titleLarge!.copyWith(
+              color:
+                  context.read<SettingsBloc>().state.model.themeMode ==
+                      ThemeMode.light
+                  ? AppTheme.lightModeBlack
+                  : AppTheme.darkModeWhite,
+            ),
           ),
-          const SizedBox(height: 16,),
+          const SizedBox(height: 16),
           const ThemeSection(),
-          const SizedBox(height: 16,),
-          const Divider(indent: 32,endIndent: 32,),
-          const SizedBox(height: 16,),
+          const SizedBox(height: 16),
+          const Divider(indent: 32, endIndent: 32),
+          const SizedBox(height: 16),
           const LanguageSection(),
-          const SizedBox(height: 16,),
-          const Divider(indent: 32,endIndent: 32,),
-          const SizedBox(height: 16,),
+          const SizedBox(height: 16),
+          const Divider(indent: 32, endIndent: 32),
+          const SizedBox(height: 16),
           const AboutSection(),
         ],
       ),

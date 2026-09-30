@@ -55,7 +55,7 @@ class AppTheme {
       headlineMedium: TextStyle(
         fontSize: FontManager.f28,
         fontWeight: FontManager.bold,
-        color: lightModeBlack
+        color: lightModeBlack,
       ),
       headlineSmall: TextStyle(
         fontSize: FontManager.f16,
