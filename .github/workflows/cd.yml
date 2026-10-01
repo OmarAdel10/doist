@@ -31,11 +31,20 @@ jobs:
           java-version: "17"
 
       - name: Set Java home for Gradle
-        run: |          # Unset any variables that might interfere with Gradle's Java home          unset JAVA_TOOL_OPTIONS          unset GRADLE_OPTS          # Set the desired values from the JDK we set up          export JAVA_HOME="$JAVA_HOME"          export JDK_HOME="$JAVA_HOME"          export GRADLE_OPTS="-Dorg.gradle.java.home=$JAVA_HOME"          # Also set for subsequent steps via $GITHUB_ENV          echo "JAVA_HOME=$JAVA_HOME" >> $GITHUB_ENV          echo "JDK_HOME=$JAVA_HOME" >> $GITHUB_ENV          echo "GRADLE_OPTS=-Dorg.gradle.java.home=$JAVA_HOME" >> $GITHUB_ENV      - name: Set up Shorebird
-        uses: shorebirdtech/setup-shorebird@v1
-        with:
-          cache: true
-
+        run: |
+          # Unset any variables that might interfere with Gradle's Java home
+          unset JAVA_TOOL_OPTIONS
+          unset GRADLE_OPTS
+          # Set the desired values from the JDK we set up
+          export JAVA_HOME="$JAVA_HOME"
+          export JDK_HOME="$JAVA_HOME"
+          export GRADLE_OPTS="-Dorg.gradle.java.home=$JAVA_HOME"
+          # Also set for subsequent steps via $GITHUB_ENV
+          echo "JAVA_HOME=$JAVA_HOME" >> $GITHUB_ENV
+          echo "JDK_HOME=$JAVA_HOME" >> $GITHUB_ENV
+          echo "GRADLE_OPTS=-Dorg.gradle.java.home=$JAVA_HOME" >> $GITHUB_ENV
+          # Set Gradle Java home via properties file
+          echo "org.gradle.java.home=$JAVA_HOME" >> android/gradle.properties
       - name: Publish patch for latest release
         uses: shorebirdtech/shorebird-patch@v1
         with:
@@ -73,9 +82,19 @@ jobs:
           java-version: "17"
       - name: Set Java home for Gradle
         run: |
+          # Unset any variables that might interfere with Gradle's Java home
+          unset JAVA_TOOL_OPTIONS
+          unset GRADLE_OPTS
+          # Set the desired values from the JDK we set up
+          export JAVA_HOME="$JAVA_HOME"
+          export JDK_HOME="$JAVA_HOME"
+          export GRADLE_OPTS="-Dorg.gradle.java.home=$JAVA_HOME"
+          # Also set for subsequent steps via $GITHUB_ENV
           echo "JAVA_HOME=$JAVA_HOME" >> $GITHUB_ENV
           echo "JDK_HOME=$JAVA_HOME" >> $GITHUB_ENV
-          echo "GRADLE_JVM_OPTS=-Dorg.gradle.java.home=$JAVA_HOME" >> $GITHUB_ENV
+          echo "GRADLE_OPTS=-Dorg.gradle.java.home=$JAVA_HOME" >> $GITHUB_ENV
+          # Set Gradle Java home via properties file
+          echo "org.gradle.java.home=$JAVA_HOME" >> android/gradle.properties
       - name: Set up Shorebird
         uses: shorebirdtech/setup-shorebird@v1
         with:
