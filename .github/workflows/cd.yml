@@ -95,6 +95,13 @@ jobs:
           echo "GRADLE_OPTS=-Dorg.gradle.java.home=$JAVA_HOME" >> $GITHUB_ENV
           # Set Gradle Java home via properties file
           echo "org.gradle.java.home=$JAVA_HOME" >> android/gradle.properties
+      - name: Debug Java environment
+        run: |
+          echo "JAVA_HOME=$JAVA_HOME"
+          echo "JDK_HOME=$JDK_HOME"
+          echo "GRADLE_OPTS=$GRADLE_OPTS"
+          echo "android/gradle.properties contents:"
+          cat android/gradle.properties
       - name: Set up Shorebird
         uses: shorebirdtech/setup-shorebird@v1
         with:
