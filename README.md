@@ -1,6 +1,20 @@
-# doist
+# doist ![Logo](assets/images/logo.png)
 
 A Flutter application with Shorebird code push integration for over-the-air updates.
+
+## Tech Stack & Programming Languages
+- **Framework**: Flutter (^3.9.2)
+- **Language**: Dart
+- **State Management**: Flutter Bloc + Hydrated Bloc
+- **Localization**: flutter_intl (ARB files)
+- **Dependencies**: 
+  - equatable, uuid, path_provider, flutter_slidable, local_auth, smooth_page_indicator, lottie, flutter_animate, page_transition, flutter_launcher_icons
+- **Dev Dependencies**: 
+  - flutter_test, bloc_test, mocktail, flutter_lints
+- **Assets**: 
+  - Images (PNG/JPG), Lottie animations, Shorebird configuration
+- **Tooling**: 
+  - Shorebird CLI (for OTA updates), GitHub Actions (CI/CD)
 
 ## Table of Contents
 - [Project Overview](#project-overview)
