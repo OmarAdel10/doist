@@ -91,11 +91,21 @@ jobs:
         run: |
           echo "release_version=${{ steps.shorebird_release.outputs.release-version }}" >> $GITHUB_OUTPUT
 
-      - name: Download release artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: shorebird-release
-          path: shorebird-release
+      - name: Collect Android release artifacts
+        run: |
+          mkdir -p android-artifacts
+          # Standard Flutter build output for app bundle
+          cp build/app/outputs/bundle/release/app-release.aab android-artifacts/app-release.aab || echo "AAB not found at expected location, searching..."
+          # Standard Flutter build output for APK
+          cp build/app/outputs/apk/release/app-release.apk android-artifacts/app-release.apk || echo "APK not found at expected location, searching..."
+          # If not found, search for them
+          if [ ! -f android-artifacts/app-release.aab ]; then
+            find . -name "app-release.aab" -type f -exec cp {} android-artifacts/ \;
+          fi
+          if [ ! -f android-artifacts/app-release.apk ]; then
+            find . -name "app-release.apk" -type f -exec cp {} android-artifacts/ \;
+          fi
+          ls -la android-artifacts/
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
