@@ -72,6 +72,7 @@ packages:
       sha256: faf38497bda5ead2a8c7615f4f7939df04333478bf32e4173fcb06d428b5716b
       url: "https://pub.dev"
     source: hosted
+<<<<<<< Updated upstream
     version: "1.4.1"
   checked_yaml:
     dependency: transitive
@@ -97,6 +98,11 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.4.2"
+||||||| Stash base
+    version: "1.4.0"
+=======
+    version: "1.4.1"
+>>>>>>> Stashed changes
   clock:
     dependency: transitive
     description:
@@ -511,6 +517,7 @@ packages:
       sha256: "307249ce4ff29d58a18e97f6345f539382eb9c9c29ecda628900f31de0443dd9"
       url: "https://pub.dev"
     source: hosted
+<<<<<<< Updated upstream
     version: "1.19.0"
   mime:
     dependency: transitive
@@ -568,6 +575,11 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.2"
+||||||| Stash base
+    version: "1.16.0"
+=======
+    version: "1.19.0"
+>>>>>>> Stashed changes
   path:
     dependency: transitive
     description:
@@ -804,6 +816,7 @@ packages:
       sha256: "2a122cbe059f8b610d3a5415f42e255b6c17b1f21eee1d960f31080237fb4f11"
       url: "https://pub.dev"
     source: hosted
+<<<<<<< Updated upstream
     version: "0.7.12"
   test_core:
     dependency: transitive
@@ -829,6 +842,11 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.6.0"
+||||||| Stash base
+    version: "0.7.6"
+=======
+    version: "0.7.12"
+>>>>>>> Stashed changes
   vector_math:
     dependency: transitive
     description:
@@ -902,5 +920,13 @@ packages:
     source: hosted
     version: "3.1.4"
 sdks:
+<<<<<<< Updated upstream
   dart: ">=3.12.0 <4.0.0"
   flutter: ">=3.44.0"
+||||||| Stash base
+  dart: ">=3.9.2 <4.0.0"
+  flutter: ">=3.18.0-18.0.pre.54"
+=======
+  dart: ">=3.11.0-0 <4.0.0"
+  flutter: ">=3.18.0-18.0.pre.54"
+>>>>>>> Stashed changes
