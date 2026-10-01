@@ -30,6 +30,9 @@ jobs:
           distribution: temurin
           java-version: "17"
 
+      - name: Set JAVA_HOME for Gradle
+        run: echo "JAVA_HOME=$JAVA_HOME" >> $GITHUB_ENV
+
       - name: Set up Shorebird
         uses: shorebirdtech/setup-shorebird@v1
         with:
@@ -73,6 +76,9 @@ jobs:
         with:
           distribution: temurin
           java-version: "17"
+
+      - name: Set JAVA_HOME for Gradle
+        run: echo "JAVA_HOME=$JAVA_HOME" >> $GITHUB_ENV
 
       - name: Set up Shorebird
         uses: shorebirdtech/setup-shorebird@v1
