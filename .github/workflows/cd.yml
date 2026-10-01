@@ -7,7 +7,7 @@ on:
     tags: ["v*"]
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: shorebird-production
@@ -50,6 +50,8 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
 
       - name: Verify tag matches app version
         shell: bash
@@ -78,7 +80,42 @@ jobs:
           cache: true
 
       - name: Publish Android release
+        id: shorebird_release
         uses: shorebirdtech/shorebird-release@v1
         with:
           flutter-version: latest
           platform: android
+
+      - name: Get release version
+        id: get_version
+        run: |
+          echo "release_version=${{ steps.shorebird_release.outputs.release-version }}" >> $GITHUB_OUTPUT
+
+      - name: Download release artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: shorebird-release
+          path: shorebird-release
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        if: success()
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          body: |
+            ## Shorebird Release ${{ github.ref_name }}
+            
+            This release was built and published via Shorebird.
+            
+            ### Android
+            - **AAB**: `app-release.aab` (for Play Store)
+            - **APKs**: `app-release.apk` (for direct install)
+            
+            ### What's New
+            See the changelog for details.
+          files: |
+            shorebird-release/app-release.aab
+            shorebird-release/app-release.apk
+          draft: false
+          prerelease: false
