@@ -132,7 +132,7 @@ jobs:
           fi
           ls -la android-artifacts/
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v3
         if: success()
         with:
           tag_name: ${{ github.ref_name }}
