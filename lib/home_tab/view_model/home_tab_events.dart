@@ -36,10 +36,10 @@ class HomeTabAddAiTask extends HomeTabEvents {
   List<Object?> get props => [taskTitle];
 }
 
-class HomeTabPrioritizeTasks extends HomeTabEvents {
+class HomeTabReplaceTasks extends HomeTabEvents {
   final List<TaskModel> tasks;
 
-  HomeTabPrioritizeTasks({required this.tasks});
+  HomeTabReplaceTasks({required this.tasks});
   @override
   List<Object?> get props => [tasks];
 }

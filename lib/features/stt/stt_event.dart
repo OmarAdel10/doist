@@ -16,10 +16,8 @@ class SttStopRecording extends SttEvent {
 }
 
 class SttTranscribeFile extends SttEvent {
-  final String filePath;
-
-  const SttTranscribeFile({required this.filePath});
+  const SttTranscribeFile();
 
   @override
-  List<Object?> get props => [filePath];
+  List<Object?> get props => [];
 }
