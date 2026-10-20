@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc_test/bloc_test.dart';
 import 'package:doist/features/stt/stt_bloc.dart';
 import 'package:doist/features/stt/stt_event.dart';
@@ -66,4 +68,28 @@ void main() {
       ),
     ],
   );
+
+  blocTest<SttBloc, SttState>(
+    'ignores duplicate SttTranscribeFile while one is in flight',
+    build: () => sttBloc,
+    setUp: () {
+      final completer = Completer<String>();
+      when(
+        () => sttService.recordAndTranscribe(),
+      ).thenAnswer((_) => completer.future);
+      _pendingCompleter = completer;
+    },
+    act: (bloc) {
+      bloc.add(const SttTranscribeFile());
+      bloc.add(const SttTranscribeFile());
+    },
+    expect: () => [const SttTranscribing()],
+    tearDown: () {
+      if (!_pendingCompleter.isCompleted) {
+        _pendingCompleter.complete('Buy milk');
+      }
+    },
+  );
 }
+
+late Completer<String> _pendingCompleter;

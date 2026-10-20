@@ -10,6 +10,11 @@ class SttBloc extends Bloc<SttEvent, SttState> {
     on<SttStopRecording>((event, emit) => emit(const SttInitial()));
 
     on<SttTranscribeFile>((event, emit) async {
+      // Guard against concurrent transcriptions: ignore duplicate requests
+      // while one is already in flight.
+      if (state is SttTranscribing) {
+        return;
+      }
       emit(const SttTranscribing());
       try {
         final text = await sttService.recordAndTranscribe();

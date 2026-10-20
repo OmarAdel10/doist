@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:doist/features/stt/groq_stt_service.dart';
+import 'package:doist/features/stt/stt_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -288,5 +289,21 @@ void main() {
     );
 
     expect(() => service.recordAndTranscribe(), throwsA(isA<Exception>()));
+  });
+
+  test('GroqSttService satisfies SttService interface', () {
+    final client = _MockClient();
+    final recorder = _MockAudioRecorder();
+    when(
+      () => recorder.start(any(), path: any(named: 'path')),
+    ).thenAnswer((_) async {});
+    when(() => recorder.stop()).thenAnswer((_) async => '');
+    when(() => recorder.dispose()).thenAnswer((_) async {});
+
+    final service =
+        GroqSttService(apiKey: 'k', httpClient: client, audioRecorder: recorder)
+            as SttService;
+
+    expect(service, isA<SttService>());
   });
 }
