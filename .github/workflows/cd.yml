@@ -165,6 +165,12 @@ jobs:
           export GRADLE_OPTS="${GRADLE_OPTS} -Djava.io.tmpdir=$RUNNER_TEMP/gradle-tmp"
           export JAVA_TOOL_OPTIONS="-Djava.io.tmpdir=$RUNNER_TEMP/gradle-tmp"
 
+      - name: Create Gradle expected tmpdir (sudo)
+        run: |
+          # Create the directory that Gradle expects (hardcoded in shorebird CLI)
+          sudo mkdir -p /mnt/ALL/LinuxDev/caches/.caches_mount/tmp
+          sudo chown -R runner:runner /mnt/ALL/LinuxDev/caches/.caches_mount/tmp
+
       - name: Set up Shorebird
         uses: shorebirdtech/setup-shorebird@v1
         with:
