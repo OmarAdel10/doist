@@ -66,12 +66,12 @@ jobs:
         run: |
           # Ensure Gradle tmpdir exists (GitHub Actions issue)
           mkdir -p /tmp/gradle-tmp
-          # Also create the directory Gradle is actually looking for
-          mkdir -p /mnt/ALL/LinuxDev/caches/.caches_mount/tmp
-          echo "GRADLE_OPTS=${GRADLE_OPTS} -Djava.io.tmpdir=/tmp/gradle-tmp" >> $GITHUB_ENV
-          echo "JAVA_TOOL_OPTIONS=-Djava.io.tmpdir=/tmp/gradle-tmp" >> $GITHUB_ENV
-          export GRADLE_OPTS="${GRADLE_OPTS} -Djava.io.tmpdir=/tmp/gradle-tmp"
-          export JAVA_TOOL_OPTIONS="-Djava.io.tmpdir=/tmp/gradle-tmp"
+          # Use RUNNER_TEMP which is writable in GitHub Actions
+          mkdir -p "$RUNNER_TEMP/gradle-tmp"
+          echo "GRADLE_OPTS=${GRADLE_OPTS} -Djava.io.tmpdir=$RUNNER_TEMP/gradle-tmp" >> $GITHUB_ENV
+          echo "JAVA_TOOL_OPTIONS=-Djava.io.tmpdir=$RUNNER_TEMP/gradle-tmp" >> $GITHUB_ENV
+          export GRADLE_OPTS="${GRADLE_OPTS} -Djava.io.tmpdir=$RUNNER_TEMP/gradle-tmp"
+          export JAVA_TOOL_OPTIONS="-Djava.io.tmpdir=$RUNNER_TEMP/gradle-tmp"
 
       - name: Set up Shorebird
         uses: shorebirdtech/setup-shorebird@v1
@@ -152,12 +152,12 @@ jobs:
         run: |
           # Ensure Gradle tmpdir exists (GitHub Actions issue)
           mkdir -p /tmp/gradle-tmp
-          # Also create the directory Gradle is actually looking for
-          mkdir -p /mnt/ALL/LinuxDev/caches/.caches_mount/tmp
-          echo "GRADLE_OPTS=${GRADLE_OPTS} -Djava.io.tmpdir=/tmp/gradle-tmp" >> $GITHUB_ENV
-          echo "JAVA_TOOL_OPTIONS=-Djava.io.tmpdir=/tmp/gradle-tmp" >> $GITHUB_ENV
-          export GRADLE_OPTS="${GRADLE_OPTS} -Djava.io.tmpdir=/tmp/gradle-tmp"
-          export JAVA_TOOL_OPTIONS="-Djava.io.tmpdir=/tmp/gradle-tmp"
+          # Use RUNNER_TEMP which is writable in GitHub Actions
+          mkdir -p "$RUNNER_TEMP/gradle-tmp"
+          echo "GRADLE_OPTS=${GRADLE_OPTS} -Djava.io.tmpdir=$RUNNER_TEMP/gradle-tmp" >> $GITHUB_ENV
+          echo "JAVA_TOOL_OPTIONS=-Djava.io.tmpdir=$RUNNER_TEMP/gradle-tmp" >> $GITHUB_ENV
+          export GRADLE_OPTS="${GRADLE_OPTS} -Djava.io.tmpdir=$RUNNER_TEMP/gradle-tmp"
+          export JAVA_TOOL_OPTIONS="-Djava.io.tmpdir=$RUNNER_TEMP/gradle-tmp"
 
       - name: Set up Shorebird
         uses: shorebirdtech/setup-shorebird@v1
