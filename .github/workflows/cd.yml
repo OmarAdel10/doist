@@ -34,7 +34,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: "3.35.1"
+          flutter-version: "3.47.7"
           channel: stable
           cache: true
 
@@ -109,7 +109,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: "3.35.1"
+          flutter-version: "3.47.7"
           channel: stable
           cache: true
 
@@ -146,7 +146,7 @@ jobs:
         id: shorebird_release
         uses: shorebirdtech/shorebird-release@v1
         with:
-          flutter-version: "3.35.1"
+          flutter-version: "3.47.7"
           platform: android
 
       - name: Get release version
