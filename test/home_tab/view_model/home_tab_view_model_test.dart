@@ -67,5 +67,36 @@ void main() {
         ),
       ],
     );
+
+    blocTest<HomeTabBloc, HomeTabState>(
+      'emits [HomeTabUpdate] state when HomeTabAddAiTask event is added.',
+      build: () => homeTabBloc,
+      act: (bloc) => bloc.add(HomeTabAddAiTask(taskTitle: 'AI task')),
+      expect: () => [
+        isA<HomeTabUpdate>().having((s) => s.tasksList.length, 'len', 1),
+      ],
+    );
+
+    blocTest<HomeTabBloc, HomeTabState>(
+      'emits [HomeTabUpdate] state when HomeTabReplaceTasks event is added.',
+      build: () => homeTabBloc,
+      seed: () => HomeTabUpdate(
+        tasksList: [
+          TaskModel(taskTitle: 'Task A'),
+          TaskModel(taskTitle: 'Task B'),
+        ],
+      ),
+      act: (bloc) {
+        final tasks = bloc.state.tasksList;
+        bloc.add(HomeTabReplaceTasks(tasks: tasks.reversed.toList()));
+      },
+      expect: () => [
+        isA<HomeTabUpdate>().having(
+          (s) => s.tasksList.first.taskTitle,
+          'first.title',
+          'Task B',
+        ),
+      ],
+    );
   });
 }
