@@ -172,15 +172,13 @@ jobs:
 
       - name: Publish Android release
         id: shorebird_release
-        uses: shorebirdtech/shorebird-release@v1
-        with:
-          flutter-version: "3.47.7"
-          platform: android
-
-      - name: Get release version
-        id: get_version
+        env:
+          TMPDIR: /tmp/gradle-tmp
+          GRADLE_USER_HOME: /tmp/gradle-home
+          JAVA_TOOL_OPTIONS: -Djava.io.tmpdir=/tmp/gradle-tmp
         run: |
-          echo "release_version=${{ steps.shorebird_release.outputs.release-version }}" >> $GITHUB_OUTPUT
+          shorebird release android --flutter-version=3.47.7
+          echo "release_version=$(shorebird release-version android --flutter-version=3.47.7 2>/dev/null | tail -1)" >> $GITHUB_OUTPUT
 
       - name: Collect Android release artifacts
         run: |
