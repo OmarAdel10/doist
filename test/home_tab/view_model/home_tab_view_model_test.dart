@@ -78,15 +78,17 @@ void main() {
     );
 
     blocTest<HomeTabBloc, HomeTabState>(
-      'emits [HomeTabUpdate] state when HomeTabPrioritizeTasks event is added.',
+      'emits [HomeTabUpdate] state when HomeTabReplaceTasks event is added.',
       build: () => homeTabBloc,
-      seed: () => HomeTabUpdate(tasksList: [
-        TaskModel(taskTitle: 'Task A'),
-        TaskModel(taskTitle: 'Task B'),
-      ]),
+      seed: () => HomeTabUpdate(
+        tasksList: [
+          TaskModel(taskTitle: 'Task A'),
+          TaskModel(taskTitle: 'Task B'),
+        ],
+      ),
       act: (bloc) {
         final tasks = bloc.state.tasksList;
-        bloc.add(HomeTabPrioritizeTasks(tasks: tasks.reversed.toList()));
+        bloc.add(HomeTabReplaceTasks(tasks: tasks.reversed.toList()));
       },
       expect: () => [
         isA<HomeTabUpdate>().having(

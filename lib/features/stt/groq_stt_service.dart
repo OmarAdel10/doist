@@ -17,22 +17,37 @@ class GroqSttService implements SttService {
   final http.Client httpClient;
   final AudioRecorder audioRecorder;
 
-  static const _groqUrl =
-      'https://api.groq.com/openai/v1/audio/transcriptions';
+  static const _groqUrl = 'https://api.groq.com/openai/v1/audio/transcriptions';
+
+  static const _requestTimeout = Duration(seconds: 30);
 
   @override
   Future<String> recordAndTranscribe() async {
-    await audioRecorder.start(
-      const RecordConfig(),
-      path: await _tempAudioPath(),
-    );
-    final filePath = await audioRecorder.stop();
-    if (filePath == null) {
-      throw Exception('Audio recording failed: no file path returned');
+    String? filePath;
+    try {
+      await audioRecorder.start(
+        const RecordConfig(),
+        path: await _tempAudioPath(),
+      );
+      filePath = await audioRecorder.stop();
+      if (filePath == null) {
+        throw Exception('Audio recording failed: no file path returned');
+      }
+      return await _transcribeFile(filePath);
+    } finally {
+      await audioRecorder.dispose();
+      if (filePath != null) {
+        await _deleteTempFile(filePath);
+      }
     }
-    await audioRecorder.dispose();
+  }
 
-    return _transcribeFile(filePath);
+  Future<void> _deleteTempFile(String filePath) async {
+    try {
+      await File(filePath).delete();
+    } on FileSystemException {
+      // Best-effort cleanup; ignore if already deleted or missing.
+    }
   }
 
   Future<String> _tempAudioPath() async {
@@ -47,11 +62,15 @@ class GroqSttService implements SttService {
       ..fields['response_format'] = 'json'
       ..files.add(await http.MultipartFile.fromPath('file', file.path));
 
-    final streamedResponse = await httpClient.send(request);
+    final streamedResponse = await httpClient
+        .send(request)
+        .timeout(_requestTimeout);
     final response = await http.Response.fromStream(streamedResponse);
 
     if (response.statusCode != 200) {
-      throw Exception('Groq Whisper error: ${response.statusCode} ${response.body}');
+      throw Exception(
+        'Groq Whisper error: ${response.statusCode} ${response.body}',
+      );
     }
 
     final decoded = json.decode(response.body) as Map<String, dynamic>;

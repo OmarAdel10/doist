@@ -16,22 +16,28 @@ void main() {
   });
 
   test('read returns null when key missing', () async {
-    when(() => mock.read(key: SecureStorageKeys.groqApiKey))
-        .thenAnswer((_) async => null);
+    when(
+      () => mock.read(key: SecureStorageKeys.groqApiKey),
+    ).thenAnswer((_) async => null);
     final result = await storage.read(SecureStorageKeys.groqApiKey);
     expect(result, isNull);
   });
 
   test('write calls underlying storage with key and value', () async {
-    when(() => mock.write(
-          key: SecureStorageKeys.googleAiApiKey,
-          value: 'secret',
-        ))
-        .thenAnswer((_) async => {});
-    await storage.write(SecureStorageKeys.googleAiApiKey, 'secret');
-    verify(() => mock.write(
-          key: SecureStorageKeys.googleAiApiKey,
-          value: 'secret',
-        )).called(1);
+    when(
+      () => mock.write(key: SecureStorageKeys.groqApiKey, value: 'secret'),
+    ).thenAnswer((_) async => {});
+    await storage.write(SecureStorageKeys.groqApiKey, 'secret');
+    verify(
+      () => mock.write(key: SecureStorageKeys.groqApiKey, value: 'secret'),
+    ).called(1);
+  });
+
+  test('delete calls underlying storage with key', () async {
+    when(
+      () => mock.delete(key: SecureStorageKeys.groqApiKey),
+    ).thenAnswer((_) async => {});
+    await storage.delete(SecureStorageKeys.groqApiKey);
+    verify(() => mock.delete(key: SecureStorageKeys.groqApiKey)).called(1);
   });
 }
