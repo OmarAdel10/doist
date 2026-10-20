@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+import 'package:doist/home_tab/data/models/task_model.dart';
+
 sealed class HomeTabEvents extends Equatable {}
 
 class HomeTabAddTask extends HomeTabEvents {
@@ -24,4 +26,20 @@ class HomeTabUpdateCheckedForTask extends HomeTabEvents {
   HomeTabUpdateCheckedForTask({required this.taskId});
   @override
   List<Object?> get props => [taskId];
+}
+
+class HomeTabAddAiTask extends HomeTabEvents {
+  final String taskTitle;
+
+  HomeTabAddAiTask({required this.taskTitle});
+  @override
+  List<Object?> get props => [taskTitle];
+}
+
+class HomeTabPrioritizeTasks extends HomeTabEvents {
+  final List<TaskModel> tasks;
+
+  HomeTabPrioritizeTasks({required this.tasks});
+  @override
+  List<Object?> get props => [tasks];
 }
