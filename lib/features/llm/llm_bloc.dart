@@ -14,7 +14,7 @@ class LlmBloc extends Bloc<LlmEvent, LlmState> {
         final task = await llmService.parseNaturalLanguage(event.input);
         emit(LlmParsedTask(task: task));
       } catch (e) {
-        emit(LlmError(message: e.toString()));
+        emit(LlmError(message: _sanitizeError(e)));
       }
     });
 
@@ -24,7 +24,7 @@ class LlmBloc extends Bloc<LlmEvent, LlmState> {
         final subtasks = await llmService.breakdownTask(event.title);
         emit(LlmBreakdown(subtasks: subtasks));
       } catch (e) {
-        emit(LlmError(message: e.toString()));
+        emit(LlmError(message: _sanitizeError(e)));
       }
     });
 
@@ -34,7 +34,7 @@ class LlmBloc extends Bloc<LlmEvent, LlmState> {
         final suggestions = await llmService.prioritizeTasks(event.tasks);
         emit(LlmPrioritized(suggestions: suggestions));
       } catch (e) {
-        emit(LlmError(message: e.toString()));
+        emit(LlmError(message: _sanitizeError(e)));
       }
     });
 
@@ -42,4 +42,16 @@ class LlmBloc extends Bloc<LlmEvent, LlmState> {
   }
 
   final LlmService llmService;
+
+  String _sanitizeError(Object e) {
+    final msg = e.toString();
+    final sanitized = msg
+        .replaceAll(RegExp(r'Bearer\s+\S+'), 'Bearer ***')
+        .replaceAll(
+          RegExp(r'api[_-]?key[=:]\s*\S+', caseSensitive: false),
+          'apiKey=***',
+        )
+        .replaceAll(RegExp(r'https?://[^\s]+'), '<url>');
+    return sanitized.isEmpty ? 'An unexpected error occurred.' : sanitized;
+  }
 }

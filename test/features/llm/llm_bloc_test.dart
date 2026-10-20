@@ -79,15 +79,15 @@ void main() {
           ),
         ],
       );
-      _prioritizeTasks = tasks;
+      _prioritizeLocal = tasks;
     },
-    act: (bloc) => bloc.add(LlmPrioritizeTasks(tasks: _prioritizeTasks)),
+    act: (bloc) => bloc.add(LlmPrioritizeTasks(tasks: _prioritizeLocal)),
     expect: () => [
       const LlmLoading(),
       LlmPrioritized(
         suggestions: [
           TaskSuggestion(
-            taskId: _prioritizeTasks[0].id,
+            taskId: _prioritizeLocal[0].id,
             reason: 'Do first',
             newPriority: TaskPriority.high,
           ),
@@ -116,4 +116,4 @@ void main() {
   );
 }
 
-late List<TaskModel> _prioritizeTasks;
+late List<TaskModel> _prioritizeLocal;

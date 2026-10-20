@@ -52,11 +52,19 @@ class TaskModel extends Equatable {
       id: map['id'] as String?,
       isChecked: map['isChecked'] as bool,
       taskTitle: map['taskTitle'] as String,
-      priority: TaskPriority.values[map['priority'] as int? ?? 1],
+      priority: TaskPriority.values[_safePriorityIndex(map['priority'])],
       dueDate: map['dueDate'] != null
-          ? DateTime.parse(map['dueDate'] as String)
+          ? DateTime.tryParse(map['dueDate'] as String)
           : null,
     );
+  }
+
+  static int _safePriorityIndex(dynamic value) {
+    final idx = value as int?;
+    if (idx != null && idx >= 0 && idx < TaskPriority.values.length) {
+      return idx;
+    }
+    return 1;
   }
 
   String toJson() => json.encode(toMap());
