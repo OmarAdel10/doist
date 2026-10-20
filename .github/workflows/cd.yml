@@ -62,6 +62,11 @@ jobs:
           echo "android/gradle.properties contents:"
           cat android/gradle.properties
 
+      - name: Set up Shorebird
+        uses: shorebirdtech/setup-shorebird@v1
+        with:
+          cache: true
+
       - name: Publish patch for latest release
         uses: shorebirdtech/shorebird-patch@v1
         with:
