@@ -8,14 +8,16 @@ import 'stt_service.dart';
 
 class GroqSttService implements SttService {
   GroqSttService({
-    required this.apiKey,
+    required String apiKey,
     required this.httpClient,
     required this.audioRecorder,
-  });
+  }) : _apiKey = apiKey;
 
-  final String apiKey;
+  final String _apiKey;
   final http.Client httpClient;
   final AudioRecorder audioRecorder;
+
+  String get apiKey => _apiKey;
 
   static const _groqUrl = 'https://api.groq.com/openai/v1/audio/transcriptions';
 
@@ -51,7 +53,8 @@ class GroqSttService implements SttService {
   }
 
   Future<String> _tempAudioPath() async {
-    return '${Directory.systemTemp.path}/doist_stt_${DateTime.now().millisecondsSinceEpoch}.wav';
+    final random = (DateTime.now().millisecondsSinceEpoch % 1000000);
+    return '${Directory.systemTemp.path}/doist_stt_${random}_${DateTime.now().millisecondsSinceEpoch}.wav';
   }
 
   Future<String> _transcribeFile(String filePath) async {
