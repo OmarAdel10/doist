@@ -42,7 +42,7 @@ void main() {
     flutterSecureStorage = _MockFlutterSecureStorage();
     when(
       () => flutterSecureStorage.read(key: any(named: 'key')),
-    ).thenAnswer((_) async => null);
+    ).thenAnswer((_) async => 'sk-test');
     settingsBloc = SettingsBloc(SecureStorage(flutterSecureStorage));
   });
 
@@ -60,7 +60,12 @@ void main() {
         child: MaterialApp(
           localizationsDelegates: [S.delegate],
           supportedLocales: S.delegate.supportedLocales,
-          home: Scaffold(body: HomeTab(sttBloc: sttBloc)),
+          home: Scaffold(
+            body: HomeTab(
+              sttBloc: sttBloc,
+              secureStorage: SecureStorage(flutterSecureStorage),
+            ),
+          ),
         ),
       ),
     );
