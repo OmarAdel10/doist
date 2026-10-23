@@ -22,3 +22,12 @@ class SettingsUpdateOnBoardingCompleteness extends SettingsEvent {
   @override
   List<Object?> get props => [];
 }
+
+class SettingsSaveApiKeys extends SettingsEvent {
+  final String groqApiKey;
+  final String? googleAiApiKey;
+
+  SettingsSaveApiKeys({required this.groqApiKey, this.googleAiApiKey});
+  @override
+  List<Object?> get props => [groqApiKey, googleAiApiKey];
+}

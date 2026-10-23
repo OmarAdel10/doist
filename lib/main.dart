@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:doist/core/storage/secure_storage.dart';
 import 'package:doist/home/view/screens/home_screen.dart';
 import 'package:doist/home_tab/view_model/home_tab_view_model.dart';
 import 'package:doist/onBoarding/view/screens/on_boarding_screen.dart';
@@ -12,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:path_provider/path_provider.dart';
@@ -37,7 +39,8 @@ class Doist extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => SettingsBloc(),
+      create: (context) =>
+          SettingsBloc(SecureStorage(const FlutterSecureStorage())),
       child: BlocBuilder<SettingsBloc, SettingsState>(
         builder: (context, state) {
           return MaterialApp(

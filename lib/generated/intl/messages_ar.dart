@@ -23,21 +23,49 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "about": MessageLookupByLibrary.simpleMessage("حول"),
+    "add_first_task": MessageLookupByLibrary.simpleMessage("أضف مهمتك الأولى"),
     "add_new_task": MessageLookupByLibrary.simpleMessage("إضافة مهمة جديدة"),
+    "add_task_first": MessageLookupByLibrary.simpleMessage("أضف مهمة أولاً"),
+    "ai_api_keys": MessageLookupByLibrary.simpleMessage(
+      "مفاتيح واجهة الذكاء الاصطناعي",
+    ),
+    "ai_api_keys_description": MessageLookupByLibrary.simpleMessage(
+      "تُخزَّن المفاتيح بأمان على هذا الجهاز فقط.",
+    ),
+    "api_keys_saved": MessageLookupByLibrary.simpleMessage("تم حفظ المفاتيح"),
     "appTitle": MessageLookupByLibrary.simpleMessage("Doist"),
     "app_prefrences": MessageLookupByLibrary.simpleMessage("إعدادات التطبيق"),
     "app_version": MessageLookupByLibrary.simpleMessage("إصدار التطبيق"),
     "arabic": MessageLookupByLibrary.simpleMessage("العربية"),
+    "break_down_task": MessageLookupByLibrary.simpleMessage("تقسيم المهمة"),
     "dark": MessageLookupByLibrary.simpleMessage("داكن"),
     "enable_biometrics_login": MessageLookupByLibrary.simpleMessage(
       "تفعيل تسجيل الدخول بالبصمة",
     ),
     "english": MessageLookupByLibrary.simpleMessage("الإنجليزية"),
+    "google_ai_api_key": MessageLookupByLibrary.simpleMessage(
+      "مفتاح Google AI API",
+    ),
+    "groq_api_key": MessageLookupByLibrary.simpleMessage("مفتاح Groq API"),
     "home": MessageLookupByLibrary.simpleMessage("الرئيسية"),
     "language": MessageLookupByLibrary.simpleMessage("اللغة"),
     "light": MessageLookupByLibrary.simpleMessage("فاتح"),
+    "missing_google_key": MessageLookupByLibrary.simpleMessage(
+      "أضف مفتاح Google AI API من الإعدادات",
+    ),
+    "missing_groq_key": MessageLookupByLibrary.simpleMessage(
+      "أضف مفتاح Groq API من الإعدادات",
+    ),
+    "no_tasks_yet": MessageLookupByLibrary.simpleMessage("لا توجد مهام بعد"),
+    "prioritize_my_day": MessageLookupByLibrary.simpleMessage("ترتيب يومي"),
+    "priority_high": MessageLookupByLibrary.simpleMessage("عالية"),
+    "priority_low": MessageLookupByLibrary.simpleMessage("منخفضة"),
+    "priority_medium": MessageLookupByLibrary.simpleMessage("متوسطة"),
+    "save": MessageLookupByLibrary.simpleMessage("حفظ"),
     "security": MessageLookupByLibrary.simpleMessage("الأمان"),
     "settings": MessageLookupByLibrary.simpleMessage("الإعدادات"),
+    "stt_listening": MessageLookupByLibrary.simpleMessage("جارٍ الاستماع…"),
+    "stt_transcribing": MessageLookupByLibrary.simpleMessage("جارٍ التحويل…"),
     "system": MessageLookupByLibrary.simpleMessage("النظام"),
     "theme": MessageLookupByLibrary.simpleMessage("السمة"),
   };

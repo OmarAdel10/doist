@@ -1,5 +1,7 @@
 import 'dart:developer';
 
+import 'package:doist/core/storage/secure_storage.dart';
+import 'package:doist/core/storage/secure_storage_keys.dart';
 import 'package:doist/settings_tab/data/models/settings_model.dart';
 import 'package:doist/settings_tab/view_model/settings_events.dart';
 import 'package:doist/settings_tab/view_model/settings_states.dart';
@@ -7,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 class SettingsBloc extends HydratedBloc<SettingsEvent, SettingsState> {
-  SettingsBloc()
+  SettingsBloc(this._secureStorage)
     : super(
         SettingsInitial(
           model: SettingsModel(
@@ -46,7 +48,27 @@ class SettingsBloc extends HydratedBloc<SettingsEvent, SettingsState> {
         ),
       );
     });
+
+    // API keys are persisted ONLY in SecureStorage — never in the hydrated
+    // settings model, which is written to disk in plaintext.
+    on<SettingsSaveApiKeys>((event, emit) async {
+      final groqKey = event.groqApiKey.trim();
+      if (groqKey.isEmpty) {
+        await _secureStorage.delete(SecureStorageKeys.groqApiKey);
+      } else {
+        await _secureStorage.write(SecureStorageKeys.groqApiKey, groqKey);
+      }
+      final googleKey = event.googleAiApiKey?.trim() ?? '';
+      if (googleKey.isEmpty) {
+        await _secureStorage.delete(SecureStorageKeys.googleAiApiKey);
+      } else {
+        await _secureStorage.write(SecureStorageKeys.googleAiApiKey, googleKey);
+      }
+      emit(SettingsApiKeysSaved(model: state.model));
+    });
   }
+
+  final SecureStorage _secureStorage;
 
   @override
   SettingsState? fromJson(Map<String, dynamic> json) {
