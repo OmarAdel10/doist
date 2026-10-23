@@ -1,9 +1,12 @@
 import 'package:doist/home_tab/data/models/task_model.dart';
+import 'package:doist/home_tab/view/widgets/priority_chip.dart';
 import 'package:doist/settings_tab/view_model/settings_view_model.dart';
 import 'package:doist/shared/app_theme.dart';
 import 'package:doist/shared/font_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 class TaskTile extends StatelessWidget {
   final TaskModel model;
@@ -13,6 +16,9 @@ class TaskTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dueDateLabel = model.dueDate == null
+        ? null
+        : DateFormat.MMMd().format(model.dueDate!);
     return ListTile(
       title: Text(
         model.taskTitle,
@@ -29,6 +35,21 @@ class TaskTile extends StatelessWidget {
               : TextDecoration.none,
         ),
       ),
+      subtitle: Row(
+        children: [
+          PriorityChip(priority: model.priority, dense: true),
+          if (dueDateLabel != null) ...[
+            const SizedBox(width: 8),
+            Text(
+              dueDateLabel,
+              style: TextStyle(
+                fontSize: FontManager.f12,
+                color: AppTheme.lightModeTextGrey,
+              ),
+            ),
+          ],
+        ],
+      ),
       leading: Checkbox(
         activeColor: AppTheme.darkModeLightGrey,
         side: BorderSide(
@@ -40,7 +61,10 @@ class TaskTile extends StatelessWidget {
           width: 2,
         ),
         value: model.isChecked,
-        onChanged: onChanged,
+        onChanged: (val) {
+          HapticFeedback.lightImpact();
+          onChanged?.call(val);
+        },
       ),
     );
   }
