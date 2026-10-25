@@ -1,9 +1,11 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:doist/core/storage/secure_storage.dart';
 import 'package:doist/core/storage/secure_storage_keys.dart';
+import 'package:doist/settings_tab/data/models/settings_model.dart';
 import 'package:doist/settings_tab/view_model/settings_events.dart';
 import 'package:doist/settings_tab/view_model/settings_states.dart';
 import 'package:doist/settings_tab/view_model/settings_view_model.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
@@ -100,4 +102,64 @@ void main() {
       ).called(1);
     },
   );
+
+  blocTest<SettingsBloc, SettingsState>(
+    'SettingsSaveApiKeys trims surrounding whitespace before storing',
+    build: buildBloc,
+    act: (bloc) => bloc.add(
+      SettingsSaveApiKeys(
+        groqApiKey: '  sk-groq  ',
+        googleAiApiKey: ' sk-google ',
+      ),
+    ),
+    expect: () => [isA<SettingsApiKeysSaved>()],
+    verify: (_) {
+      verify(
+        () => flutterSecureStorage.write(
+          key: SecureStorageKeys.groqApiKey,
+          value: 'sk-groq',
+        ),
+      ).called(1);
+      verify(
+        () => flutterSecureStorage.write(
+          key: SecureStorageKeys.googleAiApiKey,
+          value: 'sk-google',
+        ),
+      ).called(1);
+    },
+  );
+
+  blocTest<SettingsBloc, SettingsState>(
+    'SettingsSaveApiKeys treats a whitespace-only key as empty and deletes it',
+    build: buildBloc,
+    act: (bloc) =>
+        bloc.add(SettingsSaveApiKeys(groqApiKey: '   ', googleAiApiKey: null)),
+    expect: () => [isA<SettingsApiKeysSaved>()],
+    verify: (_) {
+      verify(
+        () => flutterSecureStorage.delete(key: SecureStorageKeys.groqApiKey),
+      ).called(1);
+    },
+  );
+
+  test('toJson never serializes API key material', () {
+    final bloc = buildBloc();
+    final json = bloc.toJson(
+      const SettingsApiKeysSaved(
+        model: SettingsModel(
+          themeMode: ThemeMode.light,
+          language: 'en',
+          isOnBoardingDone: false,
+        ),
+      ),
+    );
+
+    expect(json, isNotNull);
+    // The hydrated payload is written to disk in plaintext — it must carry
+    // no trace of the secure-storage keys.
+    final payload = json.toString();
+    expect(payload, isNot(contains('sk-')));
+    expect(payload, isNot(contains('api_key')));
+    expect(json!.keys, ['settingsState']);
+  });
 }

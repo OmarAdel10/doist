@@ -5,6 +5,7 @@ import 'package:doist/generated/l10n.dart';
 import 'package:doist/home_tab/view/widgets/mic_fab.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -82,5 +83,24 @@ void main() {
     expect(find.byType(CircularProgressIndicator), findsOneWidget);
     await tester.tap(find.byType(FloatingActionButton), warnIfMissed: false);
     verifyNever(() => bloc.add(any()));
+  });
+
+  testWidgets('MicFab pulses while listening', (tester) async {
+    final bloc = _MockSttBloc();
+    when(() => bloc.state).thenReturn(const SttRecording());
+    when(() => bloc.stream).thenAnswer((_) => const Stream<SttState>.empty());
+
+    await tester.pumpWidget(
+      MaterialApp(
+        localizationsDelegates: [S.delegate],
+        supportedLocales: S.delegate.supportedLocales,
+        home: Scaffold(floatingActionButton: MicFab(sttBloc: bloc)),
+      ),
+    );
+    // Start the animation — no pumpAndSettle, the pulse loops forever.
+    await tester.pump(const Duration(milliseconds: 100));
+
+    expect(find.byType(Animate), findsOneWidget);
+    expect(find.byIcon(CupertinoIcons.mic_fill), findsOneWidget);
   });
 }

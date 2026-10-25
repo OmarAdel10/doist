@@ -42,4 +42,28 @@ void main() {
 
     expect(highColor, isNot(equals(lowColor)));
   });
+
+  testWidgets('dense mode shrinks the font and padding for tile subtitles', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        localizationsDelegates: [S.delegate],
+        supportedLocales: S.delegate.supportedLocales,
+        home: Scaffold(
+          body: Center(
+            child: PriorityChip(priority: TaskPriority.high, dense: true),
+          ),
+        ),
+      ),
+    );
+
+    final text = tester.widget<Text>(find.byType(Text));
+    expect(text.style?.fontSize, 11);
+
+    final container = tester.widget<Container>(find.byType(Container));
+    final padding = container.padding! as EdgeInsets;
+    expect(padding.horizontal, 16);
+    expect(padding.vertical, 4);
+  });
 }

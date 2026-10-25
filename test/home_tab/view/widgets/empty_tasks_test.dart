@@ -18,4 +18,21 @@ void main() {
     expect(find.text(S().add_first_task), findsOneWidget);
     expect(find.byIcon(Icons.task_alt), findsOneWidget);
   });
+
+  testWidgets('EmptyTasks renders Arabic strings under the ar locale', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        locale: const Locale('ar'),
+        localizationsDelegates: [S.delegate],
+        supportedLocales: S.delegate.supportedLocales,
+        home: const Scaffold(body: EmptyTasks()),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('لا توجد مهام بعد'), findsOneWidget);
+    expect(find.text('أضف مهمتك الأولى'), findsOneWidget);
+  });
 }

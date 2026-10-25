@@ -1,5 +1,6 @@
 import 'package:doist/core/storage/secure_storage.dart';
 import 'package:doist/features/llm/llm_bloc.dart';
+import 'package:doist/features/llm/llm_event.dart';
 import 'package:doist/features/llm/llm_service.dart';
 import 'package:doist/features/llm/llm_state.dart';
 import 'package:doist/generated/l10n.dart';
@@ -193,6 +194,31 @@ void main() {
 
     expect(find.text(S().add_task_first), findsOneWidget);
     verifyNever(() => llmService.breakdownTask(any()));
+    homeTabBloc.close();
+  });
+
+  testWidgets('a parsed natural-language task is added and the state resets', (
+    tester,
+  ) async {
+    final llmService = _MockLlmService();
+    when(() => llmService.parseNaturalLanguage(any())).thenAnswer(
+      (_) async => const ParsedTask(
+        title: 'Buy milk tomorrow',
+        priority: TaskPriority.high,
+      ),
+    );
+    final llmBloc = LlmBloc(llmService: llmService);
+    final (_, homeTabBloc) = await pumpHomeTab(tester, llmBloc: llmBloc);
+
+    llmBloc.add(const LlmParseTask(input: 'buy milk tomorrow high priority'));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 300));
+
+    expect(
+      homeTabBloc.state.tasksList.map((t) => t.taskTitle),
+      contains('Buy milk tomorrow'),
+    );
+    expect(llmBloc.state, isA<LlmInitial>());
     homeTabBloc.close();
   });
 }
