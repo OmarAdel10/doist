@@ -29,7 +29,8 @@ class _MockLlmService extends Mock implements LlmService {
   Future<List<String>> breakdownTask(String title) async => [];
 
   @override
-  Future<List<TaskSuggestion>> prioritizeTasks(List<TaskModel> tasks) async => [];
+  Future<List<TaskSuggestion>> prioritizeTasks(List<TaskModel> tasks) async =>
+      [];
 }
 
 class _MockFlutterSecureStorage extends Mock implements FlutterSecureStorage {}
@@ -134,7 +135,13 @@ void main() {
     final llmBloc = LlmBloc(llmService: _MockLlmService());
 
     await tester.pumpWidget(
-      wrap(HomeTab(sttBloc: sttBloc, llmBloc: llmBloc, secureStorage: SecureStorage(flutterSecureStorage))),
+      wrap(
+        HomeTab(
+          sttBloc: sttBloc,
+          llmBloc: llmBloc,
+          secureStorage: SecureStorage(flutterSecureStorage),
+        ),
+      ),
     );
     await settle(tester);
 

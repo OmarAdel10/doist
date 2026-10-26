@@ -29,9 +29,9 @@ void main() {
         ),
       ),
     );
-    when(() => settingsBloc.stream).thenAnswer(
-      (_) => const Stream<SettingsState>.empty(),
-    );
+    when(
+      () => settingsBloc.stream,
+    ).thenAnswer((_) => const Stream<SettingsState>.empty());
   });
 
   Widget wrap(TaskModel model, {void Function(bool?)? onChanged}) {
