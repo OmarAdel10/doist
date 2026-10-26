@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc_test/bloc_test.dart';
 import 'package:doist/generated/l10n.dart';
 import 'package:doist/home_tab/data/models/task_model.dart';
@@ -13,6 +15,7 @@ import 'package:doist/settings_tab/view_model/settings_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -46,6 +49,9 @@ void main() {
         ),
       ),
     );
+    when(() => settingsBloc.stream).thenAnswer(
+      (_) => const Stream<SettingsState>.empty(),
+    );
   });
 
   Widget wrap() {
@@ -55,7 +61,12 @@ void main() {
         BlocProvider<SettingsBloc>.value(value: settingsBloc),
       ],
       child: MaterialApp(
-        localizationsDelegates: [S.delegate],
+        localizationsDelegates: [
+          S.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
         supportedLocales: S.delegate.supportedLocales,
         home: const Scaffold(body: Column(children: [TasksList()])),
       ),
@@ -66,11 +77,19 @@ void main() {
     when(() => homeTabBloc.state).thenReturn(HomeTabUpdate(tasksList: tasks));
   }
 
+  /// Pump to allow flutter_animate timers to complete.
+  Future<void> settle(WidgetTester tester) async {
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 600));
+    await tester.pump(const Duration(milliseconds: 600));
+  }
+
   testWidgets('renders the empty state when there are no tasks', (
     tester,
   ) async {
     seedTasks([]);
     await tester.pumpWidget(wrap());
+    await settle(tester);
 
     expect(find.byType(EmptyTasks), findsOneWidget);
     expect(find.byType(RefreshIndicator), findsNothing);
@@ -79,6 +98,7 @@ void main() {
   testWidgets('renders a RefreshIndicator and a tile per task', (tester) async {
     seedTasks([TaskModel(taskTitle: 'Task A'), TaskModel(taskTitle: 'Task B')]);
     await tester.pumpWidget(wrap());
+    await settle(tester);
 
     expect(find.byType(RefreshIndicator), findsOneWidget);
     expect(find.byType(TaskTile), findsNWidgets(2));
@@ -88,13 +108,16 @@ void main() {
   testWidgets('pull-to-refresh dispatches HomeTabRefreshTasks', (tester) async {
     seedTasks([TaskModel(taskTitle: 'Task A')]);
     await tester.pumpWidget(wrap());
+    await settle(tester);
 
     // Invoke the RefreshIndicator callback directly — a fling gesture is
     // flaky at this list height with slidable tiles attached.
     final indicator = tester.widget<RefreshIndicator>(
       find.byType(RefreshIndicator),
     );
-    await indicator.onRefresh!();
+    // Call onRefresh and pump to advance fake time for the 300ms delay
+    unawaited(indicator.onRefresh());
+    await tester.pump(const Duration(milliseconds: 400));
     verify(() => homeTabBloc.add(any<HomeTabEvents>())).called(1);
   });
 
@@ -104,6 +127,7 @@ void main() {
     final task = TaskModel(taskTitle: 'Task A');
     seedTasks([task]);
     await tester.pumpWidget(wrap());
+    await settle(tester);
 
     await tester.tap(find.byType(Checkbox));
     verify(
@@ -124,6 +148,7 @@ void main() {
     final task = TaskModel(taskTitle: 'Task A');
     seedTasks([task]);
     await tester.pumpWidget(wrap());
+    await settle(tester);
 
     await tester.drag(find.text('Task A'), const Offset(-200, 0));
     await tester.pump();

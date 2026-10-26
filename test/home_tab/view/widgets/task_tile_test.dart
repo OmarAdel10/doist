@@ -1,3 +1,4 @@
+import 'package:doist/generated/l10n.dart';
 import 'package:doist/home_tab/data/models/task_model.dart';
 import 'package:doist/home_tab/view/widgets/task_tile.dart';
 import 'package:doist/settings_tab/data/models/settings_model.dart';
@@ -5,6 +6,7 @@ import 'package:doist/settings_tab/view_model/settings_states.dart';
 import 'package:doist/settings_tab/view_model/settings_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/intl.dart';
 import 'package:mocktail/mocktail.dart';
@@ -27,12 +29,22 @@ void main() {
         ),
       ),
     );
+    when(() => settingsBloc.stream).thenAnswer(
+      (_) => const Stream<SettingsState>.empty(),
+    );
   });
 
   Widget wrap(TaskModel model, {void Function(bool?)? onChanged}) {
     return BlocProvider<SettingsBloc>.value(
       value: settingsBloc,
       child: MaterialApp(
+        localizationsDelegates: [
+          S.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        supportedLocales: S.delegate.supportedLocales,
         home: Scaffold(
           body: ListTileTheme(
             child: TaskTile(model: model, onChanged: onChanged),
