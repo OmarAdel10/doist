@@ -31,3 +31,10 @@ class SettingsError extends SettingsState {
   @override
   List<Object?> get props => [message, model];
 }
+
+class SettingsApiKeysSaved extends SettingsState {
+  const SettingsApiKeysSaved({required super.model});
+
+  @override
+  List<Object?> get props => [model];
+}

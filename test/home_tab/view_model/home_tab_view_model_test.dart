@@ -98,5 +98,20 @@ void main() {
         ),
       ],
     );
+
+    blocTest<HomeTabBloc, HomeTabState>(
+      'HomeTabRefreshTasks re-emits the current list (deduped to no emission '
+      'by Equatable equality) and leaves it unchanged.',
+      build: () => homeTabBloc,
+      seed: () => HomeTabUpdate(
+        tasksList: [
+          TaskModel(taskTitle: 'Task A'),
+          TaskModel(taskTitle: 'Task B'),
+        ],
+      ),
+      act: (bloc) => bloc.add(HomeTabRefreshTasks()),
+      expect: () => [],
+      verify: (bloc) => expect(bloc.state.tasksList, hasLength(2)),
+    );
   });
 }

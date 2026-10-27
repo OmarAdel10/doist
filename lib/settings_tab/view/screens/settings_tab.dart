@@ -1,5 +1,6 @@
 import 'package:doist/generated/l10n.dart';
 import 'package:doist/settings_tab/view/widgets/about_section.dart';
+import 'package:doist/settings_tab/view/widgets/api_key_section.dart';
 import 'package:doist/settings_tab/view/widgets/language_section.dart';
 import 'package:doist/settings_tab/view/widgets/theme_section.dart';
 import 'package:doist/settings_tab/view_model/settings_view_model.dart';
@@ -38,6 +39,10 @@ class SettingsTab extends StatelessWidget {
           const Divider(indent: 32, endIndent: 32),
           const SizedBox(height: 16),
           const AboutSection(),
+          const SizedBox(height: 16),
+          const Divider(indent: 32, endIndent: 32),
+          const SizedBox(height: 16),
+          const ApiKeySection(),
         ],
       ),
     );

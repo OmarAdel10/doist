@@ -1,6 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
 import 'intl/messages_all.dart';
 
 // **************************************************************************
@@ -147,6 +148,161 @@ class S {
   /// `App Version`
   String get app_version {
     return Intl.message('App Version', name: 'app_version', desc: '', args: []);
+  }
+
+  /// `AI API Keys`
+  String get ai_api_keys {
+    return Intl.message('AI API Keys', name: 'ai_api_keys', desc: '', args: []);
+  }
+
+  /// `Keys are stored securely on this device only.`
+  String get ai_api_keys_description {
+    return Intl.message(
+      'Keys are stored securely on this device only.',
+      name: 'ai_api_keys_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Groq API Key`
+  String get groq_api_key {
+    return Intl.message(
+      'Groq API Key',
+      name: 'groq_api_key',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Google AI API Key`
+  String get google_ai_api_key {
+    return Intl.message(
+      'Google AI API Key',
+      name: 'google_ai_api_key',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save`
+  String get save {
+    return Intl.message('Save', name: 'save', desc: '', args: []);
+  }
+
+  /// `API keys saved`
+  String get api_keys_saved {
+    return Intl.message(
+      'API keys saved',
+      name: 'api_keys_saved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No tasks yet`
+  String get no_tasks_yet {
+    return Intl.message(
+      'No tasks yet',
+      name: 'no_tasks_yet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add your first task`
+  String get add_first_task {
+    return Intl.message(
+      'Add your first task',
+      name: 'add_first_task',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Break down task`
+  String get break_down_task {
+    return Intl.message(
+      'Break down task',
+      name: 'break_down_task',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Prioritize my day`
+  String get prioritize_my_day {
+    return Intl.message(
+      'Prioritize my day',
+      name: 'prioritize_my_day',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Listening…`
+  String get stt_listening {
+    return Intl.message(
+      'Listening…',
+      name: 'stt_listening',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Transcribing…`
+  String get stt_transcribing {
+    return Intl.message(
+      'Transcribing…',
+      name: 'stt_transcribing',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add a task first`
+  String get add_task_first {
+    return Intl.message(
+      'Add a task first',
+      name: 'add_task_first',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add your Groq API key in Settings`
+  String get missing_groq_key {
+    return Intl.message(
+      'Add your Groq API key in Settings',
+      name: 'missing_groq_key',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add your Google AI API key in Settings`
+  String get missing_google_key {
+    return Intl.message(
+      'Add your Google AI API key in Settings',
+      name: 'missing_google_key',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Low`
+  String get priority_low {
+    return Intl.message('Low', name: 'priority_low', desc: '', args: []);
+  }
+
+  /// `Medium`
+  String get priority_medium {
+    return Intl.message('Medium', name: 'priority_medium', desc: '', args: []);
+  }
+
+  /// `High`
+  String get priority_high {
+    return Intl.message('High', name: 'priority_high', desc: '', args: []);
   }
 }
 

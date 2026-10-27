@@ -12,7 +12,7 @@ class SttBloc extends Bloc<SttEvent, SttState> {
     on<SttTranscribeFile>((event, emit) async {
       // Guard against concurrent transcriptions: ignore duplicate requests
       // while one is already in flight.
-      if (state is SttTranscribing) {
+      if (state is SttTranscribing || state is SttRecording) {
         return;
       }
       emit(const SttTranscribing());
@@ -20,9 +20,21 @@ class SttBloc extends Bloc<SttEvent, SttState> {
         final text = await sttService.recordAndTranscribe();
         emit(SttResult(text: text));
       } catch (e) {
-        emit(SttError(message: e.toString()));
+        emit(SttError(message: _sanitizeError(e)));
       }
     });
+  }
+
+  String _sanitizeError(Object e) {
+    final msg = e.toString();
+    final sanitized = msg
+        .replaceAll(RegExp(r'Bearer\s+\S+'), 'Bearer ***')
+        .replaceAll(
+          RegExp(r'api[_-]?key[=:]\s*\S+', caseSensitive: false),
+          'apiKey=***',
+        )
+        .replaceAll(RegExp(r'https?://[^\s]+'), '<url>');
+    return sanitized.isEmpty ? 'An unexpected error occurred.' : sanitized;
   }
 
   final SttService sttService;

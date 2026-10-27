@@ -5,4 +5,8 @@ void main() {
   test('groqApiKey constant holds the expected key name', () {
     expect(SecureStorageKeys.groqApiKey, equals('groq_api_key'));
   });
+
+  test('googleAiApiKey constant holds the expected key name', () {
+    expect(SecureStorageKeys.googleAiApiKey, equals('google_ai_api_key'));
+  });
 }

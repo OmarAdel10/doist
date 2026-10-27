@@ -39,6 +39,10 @@ class HomeTabBloc extends HydratedBloc<HomeTabEvents, HomeTabState> {
     on<HomeTabReplaceTasks>((event, emit) {
       emit(HomeTabUpdate(tasksList: event.tasks));
     });
+
+    on<HomeTabRefreshTasks>((event, emit) {
+      emit(HomeTabUpdate(tasksList: state.tasksList));
+    });
   }
 
   @override

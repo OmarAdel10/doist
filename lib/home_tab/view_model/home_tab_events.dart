@@ -43,3 +43,8 @@ class HomeTabReplaceTasks extends HomeTabEvents {
   @override
   List<Object?> get props => [tasks];
 }
+
+class HomeTabRefreshTasks extends HomeTabEvents {
+  @override
+  List<Object?> get props => [];
+}
