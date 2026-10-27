@@ -73,8 +73,14 @@ void main() {
     final fields = tester
         .widgetList<TextField>(find.byType(TextField))
         .toList();
-    expect(fields[0].controller!.text, 'sk-test-dummy-groq-key-for-unit-testing');
-    expect(fields[1].controller!.text, 'test-dummy-google-key-for-unit-testing');
+    expect(
+      fields[0].controller!.text,
+      'sk-test-dummy-groq-key-for-unit-testing',
+    );
+    expect(
+      fields[1].controller!.text,
+      'test-dummy-google-key-for-unit-testing',
+    );
   });
 
   testWidgets('save dispatches SettingsSaveApiKeys which writes both keys', (
