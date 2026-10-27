@@ -53,12 +53,30 @@ class SettingsBloc extends HydratedBloc<SettingsEvent, SettingsState> {
     // settings model, which is written to disk in plaintext.
     on<SettingsSaveApiKeys>((event, emit) async {
       final groqKey = event.groqApiKey.trim();
+      if (groqKey.isNotEmpty && !_isValidGroqKey(groqKey)) {
+        emit(
+          SettingsError(
+            message: 'Invalid Groq API key format',
+            model: state.model,
+          ),
+        );
+        return;
+      }
       if (groqKey.isEmpty) {
         await _secureStorage.delete(SecureStorageKeys.groqApiKey);
       } else {
         await _secureStorage.write(SecureStorageKeys.groqApiKey, groqKey);
       }
       final googleKey = event.googleAiApiKey?.trim() ?? '';
+      if (googleKey.isNotEmpty && !_isValidGoogleKey(googleKey)) {
+        emit(
+          SettingsError(
+            message: 'Invalid Google AI API key format',
+            model: state.model,
+          ),
+        );
+        return;
+      }
       if (googleKey.isEmpty) {
         await _secureStorage.delete(SecureStorageKeys.googleAiApiKey);
       } else {
@@ -67,6 +85,10 @@ class SettingsBloc extends HydratedBloc<SettingsEvent, SettingsState> {
       emit(SettingsApiKeysSaved(model: state.model));
     });
   }
+
+  bool _isValidGroqKey(String key) => key.startsWith('sk-') && key.length > 20;
+
+  bool _isValidGoogleKey(String key) => key.length > 20;
 
   final SecureStorage _secureStorage;
 

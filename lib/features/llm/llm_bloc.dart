@@ -7,7 +7,9 @@ import 'llm_state.dart';
 /// BLoC orchestrating LLM-powered capabilities: natural-language task
 /// parsing, task breakdown, and smart prioritization.
 class LlmBloc extends Bloc<LlmEvent, LlmState> {
-  LlmBloc({required this.llmService}) : super(const LlmInitial()) {
+  LlmBloc({required this.llmService, String? apiKey})
+    : super(const LlmInitial()) {
+    _apiKey = apiKey;
     on<LlmParseTask>((event, emit) async {
       emit(const LlmLoading());
       try {
@@ -41,6 +43,8 @@ class LlmBloc extends Bloc<LlmEvent, LlmState> {
     on<LlmClear>((event, emit) => emit(const LlmInitial()));
   }
 
+  String? _apiKey;
+
   final LlmService llmService;
 
   String _sanitizeError(Object e) {
@@ -52,6 +56,9 @@ class LlmBloc extends Bloc<LlmEvent, LlmState> {
           'apiKey=***',
         )
         .replaceAll(RegExp(r'https?://[^\s]+'), '<url>');
+    if (_apiKey != null && _apiKey!.isNotEmpty) {
+      return sanitized.replaceAll(_apiKey!, '***');
+    }
     return sanitized.isEmpty ? 'An unexpected error occurred.' : sanitized;
   }
 }

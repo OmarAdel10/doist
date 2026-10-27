@@ -225,7 +225,7 @@ void main() {
       audioRecorder: recorder,
     );
 
-    expect(() => service.recordAndTranscribe(), throwsA(isA<TypeError>()));
+    expect(() => service.recordAndTranscribe(), throwsA(isA<Exception>()));
   });
 
   test('_transcribeFile throws when audio file missing', () async {

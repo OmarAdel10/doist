@@ -1,14 +1,12 @@
 import 'package:doist/core/storage/secure_storage.dart';
-import 'package:doist/core/storage/secure_storage_keys.dart';
-import 'package:doist/features/llm/gemini_llm_service.dart';
 import 'package:doist/features/llm/llm_bloc.dart';
 import 'package:doist/features/llm/llm_event.dart';
 import 'package:doist/features/llm/llm_state.dart';
-import 'package:doist/features/stt/groq_stt_service.dart';
 import 'package:doist/features/stt/stt_bloc.dart';
 import 'package:doist/features/stt/stt_event.dart';
 import 'package:doist/features/stt/stt_state.dart';
 import 'package:doist/generated/l10n.dart';
+import 'package:doist/home_tab/view/screens/home_tab_bloc_factory.dart';
 import 'package:doist/home_tab/view/widgets/ai_action_chip.dart';
 import 'package:doist/home_tab/view/widgets/custom_text_field.dart';
 import 'package:doist/home_tab/view/widgets/mic_fab.dart';
@@ -20,7 +18,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
-import 'package:record/record.dart';
 
 /// Home tab: task entry (manual + voice), AI actions and the task list.
 ///
@@ -59,8 +56,10 @@ class _HomeTabState extends State<HomeTab> {
   LlmBloc? _llmBloc;
   bool _ownsSttBloc = false;
   bool _ownsLlmBloc = false;
+  bool _ownsHttpClient = false;
   String _groqApiKey = '';
   String _googleApiKey = '';
+  http.Client? _httpClient;
 
   @override
   void initState() {
@@ -77,22 +76,23 @@ class _HomeTabState extends State<HomeTab> {
   Future<void> _initBlocs() async {
     final storage =
         widget.secureStorage ?? SecureStorage(const FlutterSecureStorage());
-    final groqKey = await storage.read(SecureStorageKeys.groqApiKey) ?? '';
-    final googleKey =
-        await storage.read(SecureStorageKeys.googleAiApiKey) ?? '';
+    final keys = await HomeTabBlocFactory.readApiKeys(storage);
     if (!mounted) return;
+    http.Client? client = widget.httpClient;
+    if (client == null) {
+      client = http.Client();
+      _httpClient = client;
+      _ownsHttpClient = true;
+    }
     setState(() {
-      _groqApiKey = groqKey;
-      _googleApiKey = googleKey;
-      _sttBloc ??= SttBloc(
-        sttService: GroqSttService(
-          apiKey: groqKey,
-          httpClient: widget.httpClient ?? http.Client(),
-          audioRecorder: AudioRecorder(),
-        ),
+      _groqApiKey = keys['groqApiKey']!;
+      _googleApiKey = keys['googleApiKey']!;
+      _sttBloc ??= HomeTabBlocFactory.createSttBloc(
+        groqApiKey: keys['groqApiKey']!,
+        httpClient: client,
       );
-      _llmBloc ??= LlmBloc(
-        llmService: GeminiLlmService.real(apiKey: googleKey),
+      _llmBloc ??= HomeTabBlocFactory.createLlmBloc(
+        googleApiKey: keys['googleApiKey']!,
       );
     });
   }
@@ -104,6 +104,9 @@ class _HomeTabState extends State<HomeTab> {
     }
     if (_ownsLlmBloc) {
       _llmBloc?.close();
+    }
+    if (_ownsHttpClient) {
+      _httpClient?.close();
     }
     super.dispose();
   }

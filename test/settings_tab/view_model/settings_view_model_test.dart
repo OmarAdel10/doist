@@ -51,20 +51,23 @@ void main() {
     'SettingsSaveApiKeys writes both keys to SecureStorage and emits SettingsApiKeysSaved',
     build: buildBloc,
     act: (bloc) => bloc.add(
-      SettingsSaveApiKeys(groqApiKey: 'sk-groq', googleAiApiKey: 'sk-google'),
+      SettingsSaveApiKeys(
+        groqApiKey: 'sk-test-dummy-groq-key-for-unit-testing',
+        googleAiApiKey: 'test-dummy-google-key-for-unit-testing',
+      ),
     ),
     expect: () => [isA<SettingsApiKeysSaved>()],
     verify: (_) {
       verify(
         () => flutterSecureStorage.write(
           key: SecureStorageKeys.groqApiKey,
-          value: 'sk-groq',
+          value: 'sk-test-dummy-groq-key-for-unit-testing',
         ),
       ).called(1);
       verify(
         () => flutterSecureStorage.write(
           key: SecureStorageKeys.googleAiApiKey,
-          value: 'sk-google',
+          value: 'test-dummy-google-key-for-unit-testing',
         ),
       ).called(1);
     },
@@ -74,7 +77,10 @@ void main() {
     'SettingsSaveApiKeys deletes the Google key when the field is empty',
     build: buildBloc,
     act: (bloc) => bloc.add(
-      SettingsSaveApiKeys(groqApiKey: 'sk-groq', googleAiApiKey: ''),
+      SettingsSaveApiKeys(
+        groqApiKey: 'sk-test-dummy-groq-key-for-unit-testing',
+        googleAiApiKey: '',
+      ),
     ),
     expect: () => [isA<SettingsApiKeysSaved>()],
     verify: (_) {
@@ -108,8 +114,8 @@ void main() {
     build: buildBloc,
     act: (bloc) => bloc.add(
       SettingsSaveApiKeys(
-        groqApiKey: '  sk-groq  ',
-        googleAiApiKey: ' sk-google ',
+        groqApiKey: '  sk-test-dummy-groq-key-for-unit-testing  ',
+        googleAiApiKey: ' test-dummy-google-key-for-unit-testing ',
       ),
     ),
     expect: () => [isA<SettingsApiKeysSaved>()],
@@ -117,13 +123,13 @@ void main() {
       verify(
         () => flutterSecureStorage.write(
           key: SecureStorageKeys.groqApiKey,
-          value: 'sk-groq',
+          value: 'sk-test-dummy-groq-key-for-unit-testing',
         ),
       ).called(1);
       verify(
         () => flutterSecureStorage.write(
           key: SecureStorageKeys.googleAiApiKey,
-          value: 'sk-google',
+          value: 'test-dummy-google-key-for-unit-testing',
         ),
       ).called(1);
     },

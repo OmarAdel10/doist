@@ -60,10 +60,10 @@ void main() {
   testWidgets('prefills existing keys from SecureStorage', (tester) async {
     when(
       () => mock.read(key: SecureStorageKeys.groqApiKey),
-    ).thenAnswer((_) async => 'sk-groq');
+    ).thenAnswer((_) async => 'sk-test-dummy-groq-key-for-unit-testing');
     when(
       () => mock.read(key: SecureStorageKeys.googleAiApiKey),
-    ).thenAnswer((_) async => 'sk-google');
+    ).thenAnswer((_) async => 'test-dummy-google-key-for-unit-testing');
 
     await tester.pumpWidget(
       _wrap(ApiKeySection(storage: SecureStorage(mock)), mock: mock),
@@ -73,8 +73,8 @@ void main() {
     final fields = tester
         .widgetList<TextField>(find.byType(TextField))
         .toList();
-    expect(fields[0].controller!.text, 'sk-groq');
-    expect(fields[1].controller!.text, 'sk-google');
+    expect(fields[0].controller!.text, 'sk-test-dummy-groq-key-for-unit-testing');
+    expect(fields[1].controller!.text, 'test-dummy-google-key-for-unit-testing');
   });
 
   testWidgets('save dispatches SettingsSaveApiKeys which writes both keys', (
@@ -85,17 +85,28 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    await tester.enterText(find.byType(TextField).at(0), 'sk-groq');
-    await tester.enterText(find.byType(TextField).at(1), 'sk-google');
+    await tester.enterText(
+      find.byType(TextField).at(0),
+      'sk-test-dummy-groq-key-for-unit-testing',
+    );
+    await tester.enterText(
+      find.byType(TextField).at(1),
+      'test-dummy-google-key-for-unit-testing',
+    );
     await tester.tap(find.text(S().save));
     await tester.pumpAndSettle();
 
     verify(
-      () => mock.write(key: SecureStorageKeys.groqApiKey, value: 'sk-groq'),
+      () => mock.write(
+        key: SecureStorageKeys.groqApiKey,
+        value: 'sk-test-dummy-groq-key-for-unit-testing',
+      ),
     ).called(1);
     verify(
-      () =>
-          mock.write(key: SecureStorageKeys.googleAiApiKey, value: 'sk-google'),
+      () => mock.write(
+        key: SecureStorageKeys.googleAiApiKey,
+        value: 'test-dummy-google-key-for-unit-testing',
+      ),
     ).called(1);
     expect(find.text(S().api_keys_saved), findsOneWidget);
   });

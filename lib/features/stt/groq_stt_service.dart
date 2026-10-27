@@ -72,12 +72,14 @@ class GroqSttService implements SttService {
     final response = await http.Response.fromStream(streamedResponse);
 
     if (response.statusCode != 200) {
-      throw Exception(
-        'Groq Whisper error: ${response.statusCode} ${response.body}',
-      );
+      throw Exception('Groq Whisper error: ${response.statusCode}');
     }
 
     final decoded = json.decode(response.body) as Map<String, dynamic>;
-    return decoded['text'] as String;
+    final text = decoded['text'] as String?;
+    if (text == null) {
+      throw Exception('Groq response missing text field');
+    }
+    return text;
   }
 }
