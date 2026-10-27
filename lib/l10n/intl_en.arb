@@ -25,6 +25,7 @@
   "add_first_task": "Add your first task",
   "break_down_task": "Break down task",
   "prioritize_my_day": "Prioritize my day",
+  "parse_task": "Parse task",
   "stt_listening": "Listening…",
   "stt_transcribing": "Transcribing…",
   "add_task_first": "Add a task first",
@@ -32,5 +33,6 @@
   "missing_google_key": "Add your Google AI API key in Settings",
   "priority_low": "Low",
   "priority_medium": "Medium",
-  "priority_high": "High"
+  "priority_high": "High",
+  "save_api_keys": "Save API Keys"
 }

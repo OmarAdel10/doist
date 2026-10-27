@@ -60,6 +60,7 @@ class _HomeTabState extends State<HomeTab> {
   String _groqApiKey = '';
   String _googleApiKey = '';
   http.Client? _httpClient;
+  final TextEditingController _taskController = TextEditingController();
 
   @override
   void initState() {
@@ -108,6 +109,7 @@ class _HomeTabState extends State<HomeTab> {
     if (_ownsHttpClient) {
       _httpClient?.close();
     }
+    _taskController.dispose();
     super.dispose();
   }
 
@@ -147,6 +149,19 @@ class _HomeTabState extends State<HomeTab> {
       return;
     }
     llmBloc.add(LlmPrioritizeTasks(tasks: tasks));
+  }
+
+  void _onParseTap(LlmBloc llmBloc) {
+    if (_googleApiKey.isEmpty) {
+      _showSnack(S.of(context).missing_google_key);
+      return;
+    }
+    final input = _taskController.text.trim();
+    if (input.isEmpty) {
+      _showSnack(S.of(context).add_task_first);
+      return;
+    }
+    llmBloc.add(LlmParseTask(input: input));
   }
 
   @override
@@ -213,40 +228,56 @@ class _HomeTabState extends State<HomeTab> {
             sttBloc: sttBloc,
             onTap: _groqApiKey.isEmpty ? _onMicTap : null,
           ),
-          body: Column(
-            children: [
-              CustomTextField(),
-              BlocBuilder<LlmBloc, LlmState>(
-                builder: (context, state) {
-                  final loading = state is LlmLoading;
-                  return Row(
-                    children: [
-                      AiActionChip(
-                        label: localization.break_down_task,
-                        icon: Icons.auto_awesome,
-                        onTap: loading ? null : () => _onBreakdownTap(llmBloc),
-                      ),
-                      const SizedBox(width: 8),
-                      AiActionChip(
-                        label: localization.prioritize_my_day,
-                        icon: CupertinoIcons.sort_down,
-                        onTap: loading ? null : () => _onPrioritizeTap(llmBloc),
-                      ),
-                      if (loading) ...[
-                        const SizedBox(width: 8),
-                        const SizedBox(
-                          width: 16,
-                          height: 16,
-                          child: CircularProgressIndicator(strokeWidth: 2),
+          body: RefreshIndicator(
+            onRefresh: () async {
+              context.read<HomeTabBloc>().add(HomeTabRefreshTasks());
+              await Future<void>.delayed(const Duration(milliseconds: 300));
+            },
+            child: ListView(
+              children: [
+                CustomTextField(controller: _taskController),
+                BlocBuilder<LlmBloc, LlmState>(
+                  builder: (context, state) {
+                    final loading = state is LlmLoading;
+                    return Row(
+                      children: [
+                        AiActionChip(
+                          label: localization.break_down_task,
+                          icon: Icons.auto_awesome,
+                          onTap: loading
+                              ? null
+                              : () => _onBreakdownTap(llmBloc),
                         ),
+                        const SizedBox(width: 8),
+                        AiActionChip(
+                          label: localization.prioritize_my_day,
+                          icon: CupertinoIcons.sort_down,
+                          onTap: loading
+                              ? null
+                              : () => _onPrioritizeTap(llmBloc),
+                        ),
+                        const SizedBox(width: 8),
+                        AiActionChip(
+                          label: localization.parse_task,
+                          icon: Icons.psychology,
+                          onTap: loading ? null : () => _onParseTap(llmBloc),
+                        ),
+                        if (loading) ...[
+                          const SizedBox(width: 8),
+                          const SizedBox(
+                            width: 16,
+                            height: 16,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          ),
+                        ],
                       ],
-                    ],
-                  );
-                },
-              ),
-              const SizedBox(height: 10),
-              TasksList(),
-            ],
+                    );
+                  },
+                ),
+                const SizedBox(height: 10),
+                TasksList(),
+              ],
+            ),
           ),
         ),
       ),

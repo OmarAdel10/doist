@@ -7,7 +7,7 @@ class AiActionChip extends StatelessWidget {
     super.key,
     required this.label,
     required this.icon,
-    this.onTap,
+    required this.onTap,
   });
 
   final String label;

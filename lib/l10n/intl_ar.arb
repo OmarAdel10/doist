@@ -25,6 +25,7 @@
   "add_first_task": "أضف مهمتك الأولى",
   "break_down_task": "تقسيم المهمة",
   "prioritize_my_day": "ترتيب يومي",
+  "parse_task": "تحليل المهمة",
   "stt_listening": "جارٍ الاستماع…",
   "stt_transcribing": "جارٍ التحويل…",
   "add_task_first": "أضف مهمة أولاً",
@@ -32,5 +33,6 @@
   "missing_google_key": "أضف مفتاح Google AI API من الإعدادات",
   "priority_low": "منخفضة",
   "priority_medium": "متوسطة",
-  "priority_high": "عالية"
+  "priority_high": "عالية",
+  "save_api_keys": "احفظ مفاتيح واجهة برمجة التطبيقات"
 }

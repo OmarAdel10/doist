@@ -68,7 +68,9 @@ void main() {
           GlobalWidgetsLocalizations.delegate,
         ],
         supportedLocales: S.delegate.supportedLocales,
-        home: const Scaffold(body: Column(children: [TasksList()])),
+        home: const Scaffold(
+          body: Column(children: [Expanded(child: TasksList())]),
+        ),
       ),
     );
   }
@@ -95,30 +97,13 @@ void main() {
     expect(find.byType(RefreshIndicator), findsNothing);
   });
 
-  testWidgets('renders a RefreshIndicator and a tile per task', (tester) async {
+  testWidgets('renders a tile per task', (tester) async {
     seedTasks([TaskModel(taskTitle: 'Task A'), TaskModel(taskTitle: 'Task B')]);
     await tester.pumpWidget(wrap());
     await settle(tester);
 
-    expect(find.byType(RefreshIndicator), findsOneWidget);
     expect(find.byType(TaskTile), findsNWidgets(2));
     expect(find.text('Task A'), findsOneWidget);
-  });
-
-  testWidgets('pull-to-refresh dispatches HomeTabRefreshTasks', (tester) async {
-    seedTasks([TaskModel(taskTitle: 'Task A')]);
-    await tester.pumpWidget(wrap());
-    await settle(tester);
-
-    // Invoke the RefreshIndicator callback directly — a fling gesture is
-    // flaky at this list height with slidable tiles attached.
-    final indicator = tester.widget<RefreshIndicator>(
-      find.byType(RefreshIndicator),
-    );
-    // Call onRefresh and pump to advance fake time for the 300ms delay
-    unawaited(indicator.onRefresh());
-    await tester.pump(const Duration(milliseconds: 400));
-    verify(() => homeTabBloc.add(any<HomeTabEvents>())).called(1);
   });
 
   testWidgets('toggling the checkbox dispatches the check event', (

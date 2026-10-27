@@ -15,57 +15,47 @@ class TasksList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: BlocBuilder<HomeTabBloc, HomeTabState>(
-        builder: (context, state) {
-          if (state.tasksList.isEmpty) {
-            return const EmptyTasks();
-          }
-          return RefreshIndicator(
-            onRefresh: () async {
-              // Re-emit the current list (keeps hydration semantics honest)
-              // and give the pull gesture a short visible spinner.
-              context.read<HomeTabBloc>().add(HomeTabRefreshTasks());
-              await Future<void>.delayed(const Duration(milliseconds: 300));
-            },
-            child: ListView.separated(
-              itemBuilder: (context, index) => Slidable(
-                endActionPane: ActionPane(
-                  motion: StretchMotion(),
-                  extentRatio: 0.3,
-                  children: [
-                    SlidableAction(
-                      onPressed: (context) {
-                        HapticFeedback.mediumImpact();
-                        context.read<HomeTabBloc>().add(
-                          HomeTabDeleteTask(taskId: state.tasksList[index].id),
-                        );
-                      },
-                      backgroundColor: Colors.redAccent,
-                      icon: CupertinoIcons.delete,
-                      foregroundColor: AppTheme.lightModePrimary,
-                    ),
-                  ],
+    return BlocBuilder<HomeTabBloc, HomeTabState>(
+      builder: (context, state) {
+        if (state.tasksList.isEmpty) {
+          return const EmptyTasks();
+        }
+        return ListView.separated(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (context, index) => Slidable(
+            endActionPane: ActionPane(
+              motion: StretchMotion(),
+              extentRatio: 0.3,
+              children: [
+                SlidableAction(
+                  onPressed: (context) {
+                    HapticFeedback.mediumImpact();
+                    context.read<HomeTabBloc>().add(
+                      HomeTabDeleteTask(taskId: state.tasksList[index].id),
+                    );
+                  },
+                  backgroundColor: Colors.redAccent,
+                  icon: CupertinoIcons.delete,
+                  foregroundColor: AppTheme.lightModePrimary,
                 ),
-                child: TaskTile(
-                  model: state.tasksList[index],
-                  onChanged: (val) => context.read<HomeTabBloc>().add(
-                    HomeTabUpdateCheckedForTask(
-                      taskId: state.tasksList[index].id,
-                    ),
-                  ),
-                ),
-              ),
-              separatorBuilder: (context, index) => const Divider(
-                indent: 25,
-                endIndent: 25,
-                color: AppTheme.lightModeDividerGrey,
-              ),
-              itemCount: state.tasksList.length,
+              ],
             ),
-          );
-        },
-      ),
+            child: TaskTile(
+              model: state.tasksList[index],
+              onChanged: (val) => context.read<HomeTabBloc>().add(
+                HomeTabUpdateCheckedForTask(taskId: state.tasksList[index].id),
+              ),
+            ),
+          ),
+          separatorBuilder: (context, index) => const Divider(
+            indent: 25,
+            endIndent: 25,
+            color: AppTheme.lightModeDividerGrey,
+          ),
+          itemCount: state.tasksList.length,
+        );
+      },
     );
   }
 }

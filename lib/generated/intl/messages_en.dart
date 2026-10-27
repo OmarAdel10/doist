@@ -57,6 +57,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Add your Groq API key in Settings",
     ),
     "no_tasks_yet": MessageLookupByLibrary.simpleMessage("No tasks yet"),
+    "parse_task": MessageLookupByLibrary.simpleMessage("Parse task"),
     "prioritize_my_day": MessageLookupByLibrary.simpleMessage(
       "Prioritize my day",
     ),
@@ -64,6 +65,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "priority_low": MessageLookupByLibrary.simpleMessage("Low"),
     "priority_medium": MessageLookupByLibrary.simpleMessage("Medium"),
     "save": MessageLookupByLibrary.simpleMessage("Save"),
+    "save_api_keys": MessageLookupByLibrary.simpleMessage("Save API Keys"),
     "security": MessageLookupByLibrary.simpleMessage("Security"),
     "settings": MessageLookupByLibrary.simpleMessage("Settings"),
     "stt_listening": MessageLookupByLibrary.simpleMessage("Listening…"),
