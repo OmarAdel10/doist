@@ -304,6 +304,21 @@ class S {
   String get priority_high {
     return Intl.message('High', name: 'priority_high', desc: '', args: []);
   }
+
+  /// `Parse task`
+  String get parse_task {
+    return Intl.message('Parse task', name: 'parse_task', desc: '', args: []);
+  }
+
+  /// `Save API Keys`
+  String get save_api_keys {
+    return Intl.message(
+      'Save API Keys',
+      name: 'save_api_keys',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

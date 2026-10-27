@@ -8,17 +8,16 @@ import 'package:doist/shared/app_theme.dart';
 import 'package:doist/shared/font_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 /// Settings section for entering the Groq and Google AI API keys.
 ///
 /// Keys are persisted ONLY via [SecureStorage] (dispatched through
 /// [SettingsBloc]); they are never written to the hydrated settings model.
 class ApiKeySection extends StatefulWidget {
-  const ApiKeySection({super.key, this.storage});
+  const ApiKeySection({super.key, required this.storage});
 
   /// Injectable for tests; defaults to the real secure storage.
-  final SecureStorage? storage;
+  final SecureStorage storage;
 
   @override
   State<ApiKeySection> createState() => _ApiKeySectionState();
@@ -35,7 +34,7 @@ class _ApiKeySectionState extends State<ApiKeySection> {
   @override
   void initState() {
     super.initState();
-    _storage = widget.storage ?? SecureStorage(const FlutterSecureStorage());
+    _storage = widget.storage;
     _loadExistingKeys();
   }
 

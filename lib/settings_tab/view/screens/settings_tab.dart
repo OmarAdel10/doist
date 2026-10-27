@@ -1,3 +1,4 @@
+import 'package:doist/core/storage/secure_storage.dart';
 import 'package:doist/generated/l10n.dart';
 import 'package:doist/settings_tab/view/widgets/about_section.dart';
 import 'package:doist/settings_tab/view/widgets/api_key_section.dart';
@@ -7,6 +8,7 @@ import 'package:doist/settings_tab/view_model/settings_view_model.dart';
 import 'package:doist/shared/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class SettingsTab extends StatelessWidget {
   const SettingsTab({super.key});
@@ -42,7 +44,12 @@ class SettingsTab extends StatelessWidget {
           const SizedBox(height: 16),
           const Divider(indent: 32, endIndent: 32),
           const SizedBox(height: 16),
-          const ApiKeySection(),
+          BlocProvider.value(
+            value: context.read<SettingsBloc>(),
+            child: ApiKeySection(
+              storage: SecureStorage(const FlutterSecureStorage()),
+            ),
+          ),
         ],
       ),
     );

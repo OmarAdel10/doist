@@ -9,18 +9,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CustomTextField extends StatefulWidget {
-  const CustomTextField({super.key});
+  final TextEditingController? controller;
+
+  const CustomTextField({super.key, this.controller});
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
 }
 
 class _CustomTextFieldState extends State<CustomTextField> {
-  final _controller = TextEditingController();
+  late final TextEditingController _controller;
 
   @override
   void initState() {
     super.initState();
+    _controller = widget.controller ?? TextEditingController();
     _controller.addListener(() {
       setState(() {});
     });
@@ -28,7 +31,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
   @override
   void dispose() {
-    _controller.dispose();
+    if (widget.controller == null) {
+      _controller.dispose();
+    }
     super.dispose();
   }
 
